@@ -6,6 +6,7 @@ import { FloatingToolbar } from './components/FloatingToolbar';
 import { HeroVideoStage } from './components/HeroVideoStage';
 import { InteractiveBalloons } from './components/InteractiveBalloons';
 import { LocationSection } from './components/LocationSection';
+import { MemoriesCarouselSection } from './components/MemoriesCarouselSection';
 import { RsvpSection } from './components/RsvpSection';
 import { EVENT_CONFIG } from './config/event';
 import { EXPLORER_THEME } from './proposals/themes';
@@ -77,6 +78,7 @@ export function App() {
         />
 
         <CountdownSection config={EVENT_CONFIG} theme={EXPLORER_THEME} />
+        <MemoriesCarouselSection />
         <LocationSection config={EVENT_CONFIG} theme={EXPLORER_THEME} />
         <RsvpSection config={EVENT_CONFIG} theme={EXPLORER_THEME} isMuted={isMuted} />
       </main>

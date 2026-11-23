@@ -39,6 +39,9 @@ describe('App Explorer production invitation flow', () => {
     expect(
       await screen.findByRole('heading', { name: /¡confirma tu asistencia aquí abajo!/i }),
     ).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { name: /los primeros 11 meses de jacobo/i }),
+    ).toBeInTheDocument();
 
     expect(screen.getAllByText(/jacobo pineda jaramillo/i).length).toBeGreaterThanOrEqual(1);
     expect(screen.getByText(/3:00 p\. m\./i)).toBeInTheDocument();
