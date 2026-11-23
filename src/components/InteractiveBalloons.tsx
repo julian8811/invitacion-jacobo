@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import confetti from 'canvas-confetti';
+import { fireSafeConfetti } from '../utils/confetti';
 
 interface BalloonItem {
   readonly id: number;
@@ -28,21 +28,17 @@ export function InteractiveBalloons() {
     }
     setPoppedIds((prev) => [...prev, balloon.id]);
 
-    if (typeof window !== 'undefined' && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      try {
-        confetti({
-          particleCount: 20,
-          spread: 55,
-          startVelocity: 22,
-          origin: {
-            x: Math.min(0.95, Math.max(0.05, clientX / window.innerWidth)),
-            y: Math.min(0.95, Math.max(0.05, clientY / window.innerHeight)),
-          },
-          colors: [balloon.color, '#FCE085', '#FFF9EE'],
-        });
-      } catch {
-        // Ignore non-canvas environments.
-      }
+    if (typeof window !== 'undefined') {
+      fireSafeConfetti({
+        particleCount: 20,
+        spread: 55,
+        startVelocity: 22,
+        origin: {
+          x: Math.min(0.95, Math.max(0.05, clientX / window.innerWidth)),
+          y: Math.min(0.95, Math.max(0.05, clientY / window.innerHeight)),
+        },
+        colors: [balloon.color, '#FCE085', '#FFF9EE'],
+      });
     }
   };
 

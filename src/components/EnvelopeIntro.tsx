@@ -1,27 +1,11 @@
 import { useState } from 'react';
-import confetti from 'canvas-confetti';
 import { Heart, MailOpen, Volume2, VolumeX } from 'lucide-react';
 import type { EventConfig } from '../config/event';
+import { fireSafeConfetti } from '../utils/confetti';
 
 interface EnvelopeIntroProps {
   readonly config: EventConfig;
   readonly onOpen: (withSound: boolean) => void;
-}
-
-function fireIntroConfetti(): void {
-  if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    return;
-  }
-  try {
-    confetti({
-      particleCount: 65,
-      spread: 72,
-      origin: { y: 0.6 },
-      colors: ['#F4B942', '#F07167', '#7CC0E5', '#8FD4AE', '#FCE085'],
-    });
-  } catch {
-    // Canvas confetti is non-critical visual flourish; ignore unsupported headless environments.
-  }
 }
 
 export function EnvelopeIntro({ config, onOpen }: EnvelopeIntroProps) {
@@ -32,7 +16,12 @@ export function EnvelopeIntro({ config, onOpen }: EnvelopeIntroProps) {
       return;
     }
     setIsOpening(true);
-    fireIntroConfetti();
+    fireSafeConfetti({
+      particleCount: 65,
+      spread: 72,
+      origin: { y: 0.6 },
+      colors: ['#F4B942', '#F07167', '#7CC0E5', '#8FD4AE', '#FCE085'],
+    });
 
     window.setTimeout(() => {
       onOpen(withSound);
