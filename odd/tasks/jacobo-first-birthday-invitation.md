@@ -23,8 +23,8 @@ Objective: Build a faithful, mobile-first Baby Jungle Safari interactive web inv
 - [x] **T5** (`S6`) | Route: `inline` | Run full Vitest/typecheck/build verification, live mobile & desktop browser audit, and create walkthrough artifact | Commit: `fa6b538` | Polish: `c5dd0dd` | Verified: `pnpm test` (20/20 GREEN), `tsc --noEmit` (0 errors), `vite build` (2.33s), browser audit 390x844 & 1440x900 (0 overflow, 0 console errors) | Risk: none
 - [x] **T6** (`S7`, `S8`) | Route: `inline` | Strip all emojis from domain/WhatsApp messages, add `shareCard` domain module + Web Audio engine via TDD (RED -> GREEN) | Commit: `6fbb5a3` (22/22 Vitest GREEN, `tsc --noEmit` exit 0)
 - [x] **T7** (`S7`, `S8`) | Route: `inline` | Redesign storybook UI, 3D envelope, SafariFriendsPlayground, BirthdayCakeGame, zero-emoji RSVP direct `window.open`, WhatsAppCardSection & tests | Commit: `ea7313e` (22/22 Vitest GREEN, `tsc --noEmit` exit 0, `vite build` exit 0)
-- [x] **T8** (`S6`, `S7`, `S8`) | Route: `inline` | Add `vercel.json`, generate standalone `tarjeta-whatsapp-jacobo.jpg`, run live mobile & desktop browser audit, update `walkthrough.md` | Commit: pending | Verified: 22/22 Vitest, `tsc --noEmit` 0, `vite build` 2.46s, browser audit 390x844 (0 overflow, 31.16px pill clearance, 0 emojis, 0 console errors) & 1440x900
-- [ ] **T9** (`S9`) | Route: `inline` | Merge `feat/jacobo-interactive-invitation` into `main`, create & push `julian8811/invitacion-jacobo` via `gh`, refresh Engram mirror & hand off Vercel sign-in | Commit: pending | Risk: none
+- [x] **T8** (`S6`, `S7`, `S8`) | Route: `inline` | Add `vercel.json`, generate standalone `tarjeta-whatsapp-jacobo.jpg`, run live mobile & desktop browser audit, update `walkthrough.md` | Commit: `09a5370` | Verified: 22/22 Vitest, `tsc --noEmit` 0, `vite build` 2.46s, browser audit 390x844 (0 overflow, 31.16px pill clearance, 0 emojis, 0 console errors) & 1440x900
+- [x] **T9** (`S9`) | Route: `inline` | Merge `feat/jacobo-interactive-invitation` into `main`, create & push `julian8811/invitacion-jacobo` via `gh`, refresh Engram mirror & hand off Vercel sign-in | Commit: `main` | Risk: none
 
 ## Log
 
