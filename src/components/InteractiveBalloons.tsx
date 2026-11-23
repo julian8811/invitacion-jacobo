@@ -80,13 +80,14 @@ export function InteractiveBalloons({ isMuted = false }: InteractiveBalloonsProp
       </div>
 
       {/* Zero-emoji SVG mini-balloon counter badge */}
-      <div className="fixed bottom-3 left-3 z-30 flex items-center gap-1.5 rounded-full border-2 border-[#d9bf94] bg-white/95 px-3 py-1.5 text-xs font-bold text-[#244B32] shadow-md backdrop-blur sm:bottom-5 sm:left-5">
+      <div className="fixed bottom-3 left-3 z-30 flex items-center gap-1.5 rounded-full border-2 border-[#d9bf94] bg-white/95 px-2.5 py-1.5 text-[11px] font-bold text-[#244B32] shadow-md backdrop-blur sm:bottom-5 sm:left-5 sm:px-3 sm:text-xs">
         <svg viewBox="0 0 20 26" className="h-4 w-3.5 shrink-0" aria-hidden="true">
           <ellipse cx="10" cy="9.5" rx="7.5" ry="9" fill="#F07167" />
           <path d="M10 18.5 L10 25" stroke="#8C5A30" strokeWidth="1.5" />
         </svg>
         <span>
-          Globos {poppedCount}/{BALLOONS.length}
+          <span className="hidden sm:inline">Globos </span>
+          {poppedCount}/{BALLOONS.length}
         </span>
         {poppedCount > 0 && (
           <button
