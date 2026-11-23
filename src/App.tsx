@@ -1,15 +1,25 @@
-import { useState } from 'react';
+import { lazy, Suspense, useCallback, useState } from 'react';
 import { InvitationCardProposal } from './cards/InvitationCardProposal';
-import { CountdownSection } from './components/CountdownSection';
-import { EnvelopeIntro } from './components/EnvelopeIntro';
-import { FloatingToolbar } from './components/FloatingToolbar';
-import { HeroVideoStage } from './components/HeroVideoStage';
-import { InteractiveBalloons } from './components/InteractiveBalloons';
-import { LocationSection } from './components/LocationSection';
-import { MemoriesCarouselSection } from './components/MemoriesCarouselSection';
-import { RsvpSection } from './components/RsvpSection';
+import { ProposalPicker } from './components/ProposalPicker';
 import { EVENT_CONFIG } from './config/event';
 import { EXPLORER_THEME } from './proposals/themes';
+import {
+  DEFAULT_PROPOSAL_ID,
+  readProposalFromLocation,
+  writeProposalToLocation,
+  type ProposalId,
+} from './proposals/proposalId';
+import { SafariExperience } from './proposals/safari';
+
+const PopupBookExperience = lazy(async () => {
+  const mod = await import('./proposals/popup-book');
+  return { default: mod.PopupBookExperience };
+});
+
+const JeepExpeditionExperience = lazy(async () => {
+  const mod = await import('./proposals/jeep3d');
+  return { default: mod.JeepExpeditionExperience };
+});
 
 function isCardExportMode(): boolean {
   if (typeof window === 'undefined') {
@@ -19,11 +29,29 @@ function isCardExportMode(): boolean {
   return params.has('exportCard');
 }
 
+function ProposalFallback() {
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-[#F5EEDB] px-4 text-center">
+      <p className="font-display text-xl font-bold text-[#3D240F]">Preparando la expedición...</p>
+    </div>
+  );
+}
+
 export function App() {
   const [exportMode] = useState(isCardExportMode);
-  const [isOpened, setIsOpened] = useState(false);
+  const [proposalId, setProposalId] = useState<ProposalId>(() => {
+    if (typeof window === 'undefined') {
+      return DEFAULT_PROPOSAL_ID;
+    }
+    return readProposalFromLocation();
+  });
   const [isMuted, setIsMuted] = useState(false);
-  const [replaySignal, setReplaySignal] = useState(0);
+
+  const handleSelectProposal = useCallback((id: ProposalId) => {
+    setProposalId(id);
+    writeProposalToLocation(id);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
 
   if (exportMode) {
     return (
@@ -33,69 +61,38 @@ export function App() {
     );
   }
 
-  const handleOpenInvitation = (withSound: boolean) => {
-    setIsMuted(!withSound);
-    setIsOpened(true);
-    if (typeof window !== 'undefined' && typeof window.scrollTo === 'function') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  };
-
-  const handleReplayVideo = () => {
-    setReplaySignal((prev) => prev + 1);
-    const topEl = document.getElementById('inicio');
-    if (topEl && typeof topEl.scrollIntoView === 'function') {
-      topEl.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
-  if (!isOpened) {
-    return (
-      <div className="theme-explorador min-h-screen">
-        <main>
-          <EnvelopeIntro
-            config={EVENT_CONFIG}
-            theme={EXPLORER_THEME}
-            onOpen={handleOpenInvitation}
-          />
-        </main>
-      </div>
-    );
-  }
-
   return (
-    <div className="theme-explorador relative min-h-screen">
-      <InteractiveBalloons theme={EXPLORER_THEME} isMuted={isMuted} />
-
-      <main>
-        <HeroVideoStage
+    <>
+      {proposalId === 1 && (
+        <SafariExperience
           config={EVENT_CONFIG}
-          theme={EXPLORER_THEME}
           isMuted={isMuted}
-          autoPlayOnMount
-          replaySignal={replaySignal}
-          onToggleMute={() => setIsMuted((prev) => !prev)}
+          onMutedChange={setIsMuted}
         />
+      )}
 
-        <CountdownSection config={EVENT_CONFIG} theme={EXPLORER_THEME} />
-        <MemoriesCarouselSection />
-        <LocationSection config={EVENT_CONFIG} theme={EXPLORER_THEME} />
-        <RsvpSection config={EVENT_CONFIG} theme={EXPLORER_THEME} isMuted={isMuted} />
-      </main>
+      {proposalId === 2 && (
+        <Suspense fallback={<ProposalFallback />}>
+          <PopupBookExperience
+            config={EVENT_CONFIG}
+            isMuted={isMuted}
+            onToggleMute={() => setIsMuted((prev) => !prev)}
+          />
+        </Suspense>
+      )}
 
-      <footer className="px-4 pb-24 text-center text-xs font-bold">
-        <p className="font-hand text-lg text-[#1B4332]">
-          Con mucho cariño, te esperamos en el primer añito de {EVENT_CONFIG.honoree}.
-        </p>
-      </footer>
+      {proposalId === 3 && (
+        <Suspense fallback={<ProposalFallback />}>
+          <JeepExpeditionExperience
+            config={EVENT_CONFIG}
+            isMuted={isMuted}
+            onToggleMute={() => setIsMuted((prev) => !prev)}
+          />
+        </Suspense>
+      )}
 
-      <FloatingToolbar
-        theme={EXPLORER_THEME}
-        isMuted={isMuted}
-        onToggleMute={() => setIsMuted((prev) => !prev)}
-        onReplayVideo={handleReplayVideo}
-      />
-    </div>
+      <ProposalPicker activeId={proposalId} onSelect={handleSelectProposal} />
+    </>
   );
 }
 

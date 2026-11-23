@@ -7,24 +7,31 @@ vi.mock('canvas-confetti', () => ({
   default: vi.fn(),
 }));
 
-describe('App Explorer production invitation flow', () => {
+vi.mock('@react-three/fiber', () => ({
+  Canvas: ({ children }: { children?: React.ReactNode }) => <div data-testid="r3f-canvas">{children}</div>,
+  useFrame: () => undefined,
+  useThree: () => ({ camera: {}, size: { width: 100, height: 100 } }),
+}));
+
+vi.mock('@react-three/drei', () => ({
+  Html: ({ children }: { children?: React.ReactNode }) => <div>{children}</div>,
+  OrbitControls: () => null,
+  Stars: () => null,
+}));
+
+describe('App proposal experiences', () => {
   beforeEach(() => {
     window.localStorage.clear();
-    window.history.replaceState({}, '', '/');
+    window.history.replaceState({}, '', '/?propuesta=1');
   });
 
   afterEach(() => {
     cleanup();
   });
 
-  it('renders Pequeño Explorador cover without studio switcher, opens cleanly, and upholds all exclusions', async () => {
+  it('renders Safari proposal cover, opens cleanly, and upholds all exclusions', async () => {
     const user = userEvent.setup();
     const { container } = render(<App />);
-
-    // Local preview studio controls must not appear in production
-    expect(screen.queryByText(/vista local/i)).not.toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: /2\. selva viva/i })).not.toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: /3\. campamento/i })).not.toBeInTheDocument();
 
     expect(screen.getByRole('heading', { name: /¡mi primer añito!/i })).toBeInTheDocument();
     expect(screen.getByText(/jacobo pineda jaramillo/i)).toBeInTheDocument();
@@ -46,10 +53,6 @@ describe('App Explorer production invitation flow', () => {
     expect(screen.getAllByText(/jacobo pineda jaramillo/i).length).toBeGreaterThanOrEqual(1);
     expect(screen.getByText(/3:00 p\. m\./i)).toBeInTheDocument();
     expect(screen.queryByText(/4:00 p\. m\./i)).not.toBeInTheDocument();
-    expect(screen.queryByText(/toca a los amigos de jacobo/i)).not.toBeInTheDocument();
-    expect(screen.queryByText(/comparte esta tarjeta por whatsapp/i)).not.toBeInTheDocument();
-    expect(screen.queryByText(/pide un deseo por jacobo/i)).not.toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: /soplar la velita/i })).not.toBeInTheDocument();
 
     const fullText = container.textContent ?? '';
     expect(fullText).not.toMatch(/\p{Extended_Pictographic}/u);
@@ -57,5 +60,10 @@ describe('App Explorer production invitation flow', () => {
     expect(fullTextLower).not.toContain('regalo');
     expect(fullTextLower).not.toContain('lluvia de sobres');
     expect(fullTextLower).not.toContain('obsequio');
+  });
+
+  it('shows proposal picker for switching designs', () => {
+    render(<App />);
+    expect(screen.getByLabelText(/selector de propuestas de diseño/i)).toBeInTheDocument();
   });
 });

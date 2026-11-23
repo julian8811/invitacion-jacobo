@@ -12,10 +12,14 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@react-three/drei": "^10.7.9",
+    "@react-three/fiber": "^9.8.2",
     "canvas-confetti": "^1.9.4",
+    "framer-motion": "^14.14.0",
     "lucide-react": "^0.511.0",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "three": "^0.187.0"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.1.8",
@@ -25,6 +29,7 @@
     "@types/canvas-confetti": "^1.9.0",
     "@types/react": "^19.1.6",
     "@types/react-dom": "^19.1.5",
+    "@types/three": "^0.187.0",
     "@vitejs/plugin-react": "^4.5.0",
     "jsdom": "^26.1.0",
     "tailwindcss": "^4.1.8",
