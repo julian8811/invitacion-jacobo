@@ -80,6 +80,7 @@ describe('WhatsApp RSVP message and URL builders', () => {
     };
 
     const text = buildWhatsAppRsvpMessage(values, EVENT_CONFIG);
+    expect(text).not.toMatch(/\p{Extended_Pictographic}/u);
     expect(text).toContain('Familia Martínez');
     expect(text).toContain('2 adultos');
     expect(text).toContain('1 niño');
@@ -92,7 +93,7 @@ describe('WhatsApp RSVP message and URL builders', () => {
     expect(decoded).toBe(text);
   });
 
-  it('builds a warm declined RSVP message without guest counts', () => {
+  it('builds a warm declined RSVP message without guest counts or emojis', () => {
     const text = buildWhatsAppRsvpMessage(
       {
         guestName: 'Laura Ríos',
@@ -103,6 +104,7 @@ describe('WhatsApp RSVP message and URL builders', () => {
       },
       EVENT_CONFIG,
     );
+    expect(text).not.toMatch(/\p{Extended_Pictographic}/u);
     expect(text).toContain('Laura Ríos');
     expect(text).toContain('No podremos asistir');
     expect(text).not.toContain('adulto');

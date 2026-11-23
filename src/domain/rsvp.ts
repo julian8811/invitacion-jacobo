@@ -76,28 +76,28 @@ export function buildWhatsAppRsvpMessage(input: RsvpFormValues, config: EventCon
         : '';
 
     const lines = [
-      `¡Hola! Confirmo asistencia para ${config.eventTitle} de ${config.honoree} 🦁🎈`,
-      `• Invitado(s): ${cleanName}`,
-      `• Asistencia: Sí asistiremos (${adultsLabel}${childrenPart})`,
-      `• Fecha y hora: ${config.dateDisplay} a las ${config.timeDisplay}`,
-      `• Lugar: ${config.venueSpace}, ${config.venueName}`,
+      `Hola! Confirmo asistencia para ${config.eventTitle} de ${config.honoree}.`,
+      `- Invitado(s): ${cleanName}`,
+      `- Asistencia: Sí asistiremos (${adultsLabel}${childrenPart})`,
+      `- Fecha y hora: ${config.dateDisplay} a las ${config.timeDisplay}`,
+      `- Lugar: ${config.venueSpace}, ${config.venueName}`,
     ];
 
     if (cleanMessage) {
-      lines.push(`• Mensaje para Jacobo: "${cleanMessage}"`);
+      lines.push(`- Mensaje para Jacobo: "${cleanMessage}"`);
     }
 
     return lines.join('\n');
   }
 
   const lines = [
-    `¡Hola! Respondo a la invitación de ${config.eventTitle} de ${config.honoree} 💛`,
-    `• Invitado(s): ${cleanName}`,
-    `• Asistencia: No podremos asistir en esta ocasión`,
+    `Hola! Respondo a la invitación de ${config.eventTitle} de ${config.honoree}.`,
+    `- Invitado(s): ${cleanName}`,
+    `- Asistencia: No podremos asistir en esta ocasión`,
   ];
 
   if (cleanMessage) {
-    lines.push(`• Mensaje para Jacobo: "${cleanMessage}"`);
+    lines.push(`- Mensaje para Jacobo: "${cleanMessage}"`);
   }
 
   return lines.join('\n');
