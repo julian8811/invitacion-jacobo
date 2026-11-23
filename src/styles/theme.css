@@ -1,0 +1,151 @@
+@import "tailwindcss";
+
+:root {
+  --safari-cream: #fff9ee;
+  --safari-parchment: #f7ecda;
+  --safari-canopy: #244b32;
+  --safari-leaf: #3f734d;
+  --safari-sage: #8bb174;
+  --safari-wood-dark: #5c371b;
+  --safari-wood-mid: #7d4f28;
+  --safari-wood-light: #9b6538;
+  --safari-honey: #f4b942;
+  --safari-coral: #f07167;
+  --safari-sky: #7cc0e5;
+  --safari-mint: #8fd4ae;
+  --safari-butter: #fce085;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: 'Nunito', system-ui, -apple-system, sans-serif;
+  background: radial-gradient(circle at top center, #fffdf7 0%, var(--safari-cream) 48%, var(--safari-parchment) 100%);
+  color: #2b2118;
+  overflow-x: hidden;
+}
+
+.font-display {
+  font-family: 'Fredoka', 'Nunito', system-ui, sans-serif;
+}
+
+/* Rustic layered wooden plaque inspired directly by the video signboard */
+.wood-signboard {
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 224, 178, 0.04) 0px,
+      rgba(255, 224, 178, 0.04) 18px,
+      rgba(42, 22, 9, 0.06) 18px,
+      rgba(42, 22, 9, 0.06) 38px
+    ),
+    linear-gradient(180deg, #986235 0%, #7d4f28 45%, #653d1d 100%);
+  border: 3px solid #4e2e14;
+  box-shadow:
+    0 18px 40px rgba(45, 26, 10, 0.28),
+    inset 0 2px 0 rgba(255, 232, 198, 0.28),
+    inset 0 -4px 10px rgba(34, 17, 5, 0.45);
+}
+
+.wood-plank {
+  background: linear-gradient(180deg, #8c592e 0%, #744722 100%);
+  border: 2px solid #4e2e14;
+  box-shadow:
+    0 8px 18px rgba(45, 26, 10, 0.2),
+    inset 0 2px 0 rgba(255, 232, 198, 0.22);
+}
+
+.parchment-card {
+  background: linear-gradient(180deg, rgba(255, 253, 248, 0.96) 0%, rgba(247, 236, 218, 0.94) 100%);
+  border: 2px solid rgba(155, 101, 56, 0.24);
+  box-shadow:
+    0 14px 36px rgba(68, 44, 21, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.85);
+}
+
+.kraft-envelope {
+  background: linear-gradient(165deg, #e5c394 0%, #d4a872 52%, #c29158 100%);
+  border: 2px solid #9b6b3a;
+  box-shadow:
+    0 20px 44px rgba(72, 43, 17, 0.24),
+    inset 0 2px 0 rgba(255, 244, 224, 0.45);
+}
+
+@keyframes fairyTwinkle {
+  0%, 100% {
+    opacity: 0.72;
+    transform: scale(0.92);
+    box-shadow: 0 0 8px rgba(244, 185, 66, 0.65);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.12);
+    box-shadow: 0 0 16px rgba(252, 224, 133, 0.95);
+  }
+}
+
+@keyframes gentleSway {
+  0%, 100% {
+    transform: rotate(-1.5deg) translateY(0px);
+  }
+  50% {
+    transform: rotate(1.5deg) translateY(-4px);
+  }
+}
+
+@keyframes balloonFloat {
+  0%, 100% {
+    transform: translateY(0px) rotate(-2deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(2.5deg);
+  }
+}
+
+@keyframes envelopePop {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  45% {
+    transform: scale(1.03) translateY(-4px);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.95) translateY(-16px);
+    opacity: 0;
+  }
+}
+
+.animate-twinkle {
+  animation: fairyTwinkle 2.8s ease-in-out infinite;
+}
+
+.animate-sway {
+  animation: gentleSway 5.5s ease-in-out infinite;
+}
+
+.animate-balloon {
+  animation: balloonFloat 4.6s ease-in-out infinite;
+}
+
+.animate-envelope-exit {
+  animation: envelopePop 0.42s ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .animate-twinkle,
+  .animate-sway,
+  .animate-balloon,
+  .animate-envelope-exit {
+    animation: none !important;
+    transition: none !important;
+  }
+}
