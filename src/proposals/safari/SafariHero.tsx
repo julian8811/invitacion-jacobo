@@ -200,7 +200,7 @@ export function SafariHero({
             </div>
           </div>
 
-          <InteractiveAnimals isMuted={isMuted} />
+          <InteractiveAnimals config={config} isMuted={isMuted} />
         </div>
       </div>
     </header>
