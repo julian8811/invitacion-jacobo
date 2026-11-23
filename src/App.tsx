@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { BirthdayCakeGame } from './components/BirthdayCakeGame';
 import { CountdownSection } from './components/CountdownSection';
 import { EnvelopeIntro } from './components/EnvelopeIntro';
 import { FloatingToolbar } from './components/FloatingToolbar';
@@ -6,6 +7,8 @@ import { HeroVideoStage } from './components/HeroVideoStage';
 import { InteractiveBalloons } from './components/InteractiveBalloons';
 import { LocationSection } from './components/LocationSection';
 import { RsvpSection } from './components/RsvpSection';
+import { SafariFriendsPlayground } from './components/SafariFriendsPlayground';
+import { WhatsAppCardSection } from './components/WhatsAppCardSection';
 import { EVENT_CONFIG } from './config/event';
 
 export function App() {
@@ -39,7 +42,7 @@ export function App() {
 
   return (
     <div className="relative min-h-screen">
-      <InteractiveBalloons />
+      <InteractiveBalloons isMuted={isMuted} />
 
       <main>
         <HeroVideoStage
@@ -49,13 +52,23 @@ export function App() {
           replaySignal={replaySignal}
           onToggleMute={() => setIsMuted((prev) => !prev)}
         />
+
+        {/* Soft rolling meadow band for interactive storybook sections */}
+        <div className="relative bg-gradient-to-b from-transparent via-[#EAF2E2]/55 to-transparent py-2">
+          <SafariFriendsPlayground isMuted={isMuted} />
+          <BirthdayCakeGame isMuted={isMuted} />
+        </div>
+
         <CountdownSection config={EVENT_CONFIG} />
         <LocationSection config={EVENT_CONFIG} />
-        <RsvpSection config={EVENT_CONFIG} />
+        <RsvpSection config={EVENT_CONFIG} isMuted={isMuted} />
+        <WhatsAppCardSection config={EVENT_CONFIG} />
       </main>
 
-      <footer className="px-4 pb-20 text-center text-xs font-bold text-[#5C371B]/75">
-        <p>Con mucho cariño, te esperamos en el primer añito de {EVENT_CONFIG.honoree}.</p>
+      <footer className="px-4 pb-24 text-center text-xs font-bold text-[#5C371B]/80">
+        <p className="font-hand text-lg text-[#3F734D]">
+          Con mucho cariño, te esperamos en el primer añito de {EVENT_CONFIG.honoree}.
+        </p>
       </footer>
 
       <FloatingToolbar

@@ -21,14 +21,12 @@ export function LocationSection({ config }: LocationSectionProps) {
 
   return (
     <section aria-labelledby="location-heading" className="px-4 py-6">
-      <div className="parchment-card mx-auto max-w-3xl rounded-[2rem] p-6 sm:p-8">
+      <div className="storybook-card mx-auto max-w-3xl rounded-[2.25rem] p-6 sm:p-8">
         <div className="flex flex-col gap-5">
           <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
             <div>
-              <span className="inline-block rounded-full bg-[#F4B942]/25 px-3 py-1 text-xs font-extrabold tracking-wider text-[#5C371B] uppercase">
-                Cómo llegar
-              </span>
-              <h2 id="location-heading" className="font-display mt-2 text-2xl font-bold text-[#5C371B] sm:text-3xl">
+              <p className="font-hand text-xl text-[#3F734D]">Mapa de la aventura</p>
+              <h2 id="location-heading" className="font-display text-2xl font-bold text-[#5C371B] sm:text-3xl">
                 {config.venueSpace} · {config.venueName}
               </h2>
               <p className="mt-1 flex items-start gap-1.5 text-sm font-bold text-[#3F734D]">
@@ -42,7 +40,7 @@ export function LocationSection({ config }: LocationSectionProps) {
             <button
               type="button"
               onClick={handleCopyAddress}
-              className="inline-flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-xl border-2 border-[#3F734D]/30 bg-white px-4 py-2.5 text-xs font-extrabold text-[#244B32] shadow-sm transition hover:bg-[#FFF9EE] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#244B32] sm:text-sm"
+              className="inline-flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-2xl border-2 border-[#3F734D]/35 bg-white px-4 py-2.5 text-xs font-bold text-[#244B32] shadow-sm transition hover:bg-[#FFF9EE] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#244B32] sm:text-sm"
             >
               {copied ? (
                 <>
@@ -58,7 +56,7 @@ export function LocationSection({ config }: LocationSectionProps) {
             </button>
           </div>
 
-          <div className="overflow-hidden rounded-2xl border-2 border-[#8BB174]/35 bg-[#EAE4D7] shadow-inner">
+          <div className="overflow-hidden rounded-3xl border-3 border-[#d9bf94] bg-[#EAE4D7] shadow-inner">
             <iframe
               title={`Mapa de ${config.venueName} en ${config.city}`}
               src={config.mapEmbedUrl}
@@ -73,7 +71,7 @@ export function LocationSection({ config }: LocationSectionProps) {
               href={config.googleMapsUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#244B32] px-4 py-3 text-sm font-extrabold text-white shadow transition hover:bg-[#1b3a26] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#244B32]"
+              className="inline-flex items-center justify-center gap-2 rounded-2xl border-b-4 border-[#183522] bg-[#244B32] px-4 py-3 text-sm font-bold text-white shadow transition hover:bg-[#2d5d3e] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#244B32]"
             >
               <MapPin className="h-4 w-4 text-[#FCE085]" aria-hidden="true" />
               <span>Abrir en Google Maps</span>
@@ -84,7 +82,7 @@ export function LocationSection({ config }: LocationSectionProps) {
               href={config.wazeUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#33CCFF]/20 px-4 py-3 text-sm font-extrabold text-[#164E63] ring-2 ring-[#33CCFF]/50 transition hover:bg-[#33CCFF]/30 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#164E63]"
+              className="inline-flex items-center justify-center gap-2 rounded-2xl border-2 border-[#6EB5DC] border-b-4 bg-[#E5F4FC] px-4 py-3 text-sm font-bold text-[#164E63] transition hover:bg-[#d4ecf9] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#164E63]"
             >
               <Navigation className="h-4 w-4" aria-hidden="true" />
               <span>Ir con Waze</span>

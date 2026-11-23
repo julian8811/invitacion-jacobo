@@ -1,19 +1,19 @@
 @import "tailwindcss";
 
 :root {
-  --safari-cream: #fff9ee;
-  --safari-parchment: #f7ecda;
-  --safari-canopy: #244b32;
-  --safari-leaf: #3f734d;
-  --safari-sage: #8bb174;
-  --safari-wood-dark: #5c371b;
-  --safari-wood-mid: #7d4f28;
-  --safari-wood-light: #9b6538;
-  --safari-honey: #f4b942;
-  --safari-coral: #f07167;
-  --safari-sky: #7cc0e5;
-  --safari-mint: #8fd4ae;
-  --safari-butter: #fce085;
+  --paper-cream: #fdf6e7;
+  --paper-warm: #f6ebd4;
+  --jungle-deep: #244b32;
+  --jungle-leaf: #3f734d;
+  --meadow-sage: #dfecd6;
+  --wood-dark: #4e2e14;
+  --wood-mid: #7d4f28;
+  --wood-light: #a26e3f;
+  --sun-gold: #f4b942;
+  --coral-pastel: #f07167;
+  --sky-pastel: #6eb5dc;
+  --mint-pastel: #6ec498;
+  --butter-pastel: #fce085;
 }
 
 html {
@@ -23,69 +23,99 @@ html {
 
 body {
   margin: 0;
-  font-family: 'Nunito', system-ui, -apple-system, sans-serif;
-  background: radial-gradient(circle at top center, #fffdf7 0%, var(--safari-cream) 48%, var(--safari-parchment) 100%);
-  color: #2b2118;
+  font-family: 'Quicksand', system-ui, -apple-system, sans-serif;
+  background-color: var(--paper-cream);
+  background-image:
+    radial-gradient(circle at 12% 10%, rgba(252, 224, 133, 0.28) 0%, transparent 36%),
+    radial-gradient(circle at 88% 24%, rgba(143, 212, 174, 0.22) 0%, transparent 34%),
+    radial-gradient(circle at 20% 72%, rgba(124, 192, 229, 0.16) 0%, transparent 40%),
+    radial-gradient(rgba(125, 79, 40, 0.055) 1px, transparent 1px);
+  background-size: auto, auto, auto, 24px 24px;
+  color: #362516;
   overflow-x: hidden;
 }
 
 .font-display {
-  font-family: 'Fredoka', 'Nunito', system-ui, sans-serif;
+  font-family: 'Baloo 2', 'Quicksand', system-ui, sans-serif;
 }
 
-/* Rustic layered wooden plaque inspired directly by the video signboard */
-.wood-signboard {
+.font-hand {
+  font-family: 'Patrick Hand', 'Quicksand', cursive;
+}
+
+.storybook-card {
+  background: linear-gradient(180deg, #fffdf8 0%, #fbf1dc 100%);
+  border: 2.5px solid #d9bf94;
+  box-shadow:
+    0 14px 30px rgba(78, 46, 20, 0.09),
+    inset 0 2px 0 rgba(255, 255, 255, 0.9);
+}
+
+.stitched-panel {
+  border: 2px dashed rgba(125, 79, 40, 0.34);
+  background: rgba(255, 252, 244, 0.82);
+}
+
+.wooden-sign {
   background:
     repeating-linear-gradient(
-      90deg,
-      rgba(255, 224, 178, 0.04) 0px,
-      rgba(255, 224, 178, 0.04) 18px,
-      rgba(42, 22, 9, 0.06) 18px,
-      rgba(42, 22, 9, 0.06) 38px
+      0deg,
+      rgba(255, 232, 198, 0.05) 0px,
+      rgba(255, 232, 198, 0.05) 20px,
+      rgba(48, 25, 8, 0.08) 20px,
+      rgba(48, 25, 8, 0.08) 42px
     ),
-    linear-gradient(180deg, #986235 0%, #7d4f28 45%, #653d1d 100%);
+    linear-gradient(180deg, #9b6437 0%, #7d4f28 52%, #633b1a 100%);
   border: 3px solid #4e2e14;
   box-shadow:
-    0 18px 40px rgba(45, 26, 10, 0.28),
-    inset 0 2px 0 rgba(255, 232, 198, 0.28),
-    inset 0 -4px 10px rgba(34, 17, 5, 0.45);
+    0 16px 32px rgba(56, 32, 12, 0.24),
+    inset 0 3px 0 rgba(255, 233, 199, 0.3),
+    inset 0 -4px 8px rgba(34, 17, 5, 0.45);
 }
 
-.wood-plank {
-  background: linear-gradient(180deg, #8c592e 0%, #744722 100%);
-  border: 2px solid #4e2e14;
+.scrapbook-tag {
+  background: #fffdf8;
+  border: 2px solid #dec59c;
+  box-shadow: 0 6px 14px rgba(78, 46, 20, 0.1);
+}
+
+.kraft-envelope-body {
+  background: linear-gradient(165deg, #e7c697 0%, #d5a973 55%, #c18e54 100%);
+  border: 2.5px solid #966334;
   box-shadow:
-    0 8px 18px rgba(45, 26, 10, 0.2),
-    inset 0 2px 0 rgba(255, 232, 198, 0.22);
+    0 22px 44px rgba(72, 43, 17, 0.22),
+    inset 0 2px 0 rgba(255, 245, 224, 0.5);
 }
 
-.parchment-card {
-  background: linear-gradient(180deg, rgba(255, 253, 248, 0.96) 0%, rgba(247, 236, 218, 0.94) 100%);
-  border: 2px solid rgba(155, 101, 56, 0.24);
+.cameo-circle {
+  background: radial-gradient(circle, #fffdf8 58%, #f4e6cb 100%);
+  border: 4px solid #fffdf8;
   box-shadow:
-    0 14px 36px rgba(68, 44, 21, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.85);
+    0 8px 20px rgba(78, 46, 20, 0.16),
+    0 0 0 2.5px rgba(155, 101, 56, 0.26);
 }
 
-.kraft-envelope {
-  background: linear-gradient(165deg, #e5c394 0%, #d4a872 52%, #c29158 100%);
-  border: 2px solid #9b6b3a;
-  box-shadow:
-    0 20px 44px rgba(72, 43, 17, 0.24),
-    inset 0 2px 0 rgba(255, 244, 224, 0.45);
+.toy-block {
+  border-bottom-width: 5px;
+  box-shadow: 0 8px 16px rgba(56, 32, 12, 0.14);
 }
 
-@keyframes fairyTwinkle {
-  0%, 100% {
-    opacity: 0.72;
-    transform: scale(0.92);
-    box-shadow: 0 0 8px rgba(244, 185, 66, 0.65);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.12);
-    box-shadow: 0 0 16px rgba(252, 224, 133, 0.95);
-  }
+.envelope-flap {
+  transform-origin: top center;
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s ease;
+}
+
+.envelope-flap-open {
+  transform: rotateX(175deg) translateY(-6px);
+  opacity: 0.25;
+}
+
+.envelope-letter-rise {
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.envelope-letter-rise-open {
+  transform: translateY(-22px) scale(1.02);
 }
 
 @keyframes gentleSway {
@@ -97,44 +127,84 @@ body {
   }
 }
 
+@keyframes cloudDrift {
+  0%, 100% {
+    transform: translateX(0px);
+  }
+  50% {
+    transform: translateX(12px);
+  }
+}
+
 @keyframes balloonFloat {
   0%, 100% {
-    transform: translateY(0px) rotate(-2deg);
+    transform: translateY(0px) rotate(-2.5deg);
   }
   50% {
     transform: translateY(-10px) rotate(2.5deg);
   }
 }
 
-@keyframes envelopePop {
+@keyframes playfulHop {
   0% {
-    transform: scale(1);
-    opacity: 1;
+    transform: translateY(0) scale(1);
   }
-  45% {
-    transform: scale(1.03) translateY(-4px);
-    opacity: 1;
+  35% {
+    transform: translateY(-14px) rotate(-4deg) scale(1.06);
+  }
+  65% {
+    transform: translateY(2px) rotate(3deg) scale(0.98);
   }
   100% {
-    transform: scale(0.95) translateY(-16px);
-    opacity: 0;
+    transform: translateY(0) rotate(0deg) scale(1);
   }
 }
 
-.animate-twinkle {
-  animation: fairyTwinkle 2.8s ease-in-out infinite;
+@keyframes candleFlame {
+  0%, 100% {
+    transform: scale(1) rotate(-2deg);
+    opacity: 0.95;
+  }
+  50% {
+    transform: scale(1.08, 1.15) rotate(2deg);
+    opacity: 1;
+  }
+}
+
+@keyframes smokeWisp {
+  0% {
+    opacity: 0.85;
+    transform: translateY(0) scale(0.75);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-28px) scale(1.35);
+  }
 }
 
 .animate-sway {
-  animation: gentleSway 5.5s ease-in-out infinite;
+  animation: gentleSway 5.4s ease-in-out infinite;
+}
+
+.animate-cloud {
+  animation: cloudDrift 9s ease-in-out infinite;
 }
 
 .animate-balloon {
-  animation: balloonFloat 4.6s ease-in-out infinite;
+  animation: balloonFloat 4.8s ease-in-out infinite;
 }
 
-.animate-envelope-exit {
-  animation: envelopePop 0.42s ease-out forwards;
+.animate-hop {
+  animation: playfulHop 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.animate-flame {
+  transform-origin: center bottom;
+  animation: candleFlame 0.95s ease-in-out infinite;
+}
+
+.animate-smoke {
+  animation: smokeWisp 1.3s ease-out forwards;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -142,10 +212,14 @@ body {
     scroll-behavior: auto;
   }
 
-  .animate-twinkle,
   .animate-sway,
+  .animate-cloud,
   .animate-balloon,
-  .animate-envelope-exit {
+  .animate-hop,
+  .animate-flame,
+  .animate-smoke,
+  .envelope-flap,
+  .envelope-letter-rise {
     animation: none !important;
     transition: none !important;
   }

@@ -10,33 +10,39 @@ vi.mock('canvas-confetti', () => ({
 }));
 
 describe('RsvpSection', () => {
+  const originalOpen = window.open;
+
   beforeEach(() => {
     window.localStorage.clear();
+    window.open = vi.fn();
   });
 
   afterEach(() => {
+    window.open = originalOpen;
     cleanup();
   });
 
-  it('renders the waving baby lion and exact video CTA heading', () => {
-    render(<RsvpSection config={EVENT_CONFIG} />);
+  it('renders the waving baby lion and exact video CTA heading with zero emojis', () => {
+    const { container } = render(<RsvpSection config={EVENT_CONFIG} />);
 
     expect(screen.getByRole('heading', { name: EVENT_CONFIG.rsvpHeading })).toBeInTheDocument();
     const lionImg = screen.getByAltText(/leoncito/i);
     expect(lionImg).toHaveAttribute('src', '/images/baby-lion-rsvp.png');
+    expect(container.textContent ?? '').not.toMatch(/\p{Extended_Pictographic}/u);
   });
 
   it('shows a validation error when submitting an empty guest name', async () => {
     const user = userEvent.setup();
     render(<RsvpSection config={EVENT_CONFIG} />);
 
-    await user.click(screen.getByRole('button', { name: /guardar y preparar whatsapp/i }));
+    await user.click(screen.getByRole('button', { name: /confirmar por whatsapp/i }));
 
     expect(screen.getByText(/por favor escribe tu nombre/i)).toBeInTheDocument();
     expect(window.localStorage.getItem(RSVP_STORAGE_KEY)).toBeNull();
+    expect(window.open).not.toHaveBeenCalled();
   });
 
-  it('saves attending RSVP, renders confirmed pass with WhatsApp deep link, and restores across mounts', async () => {
+  it('saves attending RSVP, opens WhatsApp directly, renders confirmed pass, and restores across mounts', async () => {
     const user = userEvent.setup();
     const { unmount } = render(<RsvpSection config={EVENT_CONFIG} />);
 
@@ -45,7 +51,13 @@ describe('RsvpSection', () => {
     await user.click(screen.getByRole('button', { name: /sumar niño/i }));
     await user.type(screen.getByLabelText(/mensaje para jacobo/i), '¡Feliz primer añito Jacobo!');
 
-    await user.click(screen.getByRole('button', { name: /guardar y preparar whatsapp/i }));
+    await user.click(screen.getByRole('button', { name: /confirmar por whatsapp/i }));
+
+    expect(window.open).toHaveBeenCalledTimes(1);
+    const [openedUrl, target, features] = vi.mocked(window.open).mock.calls[0];
+    expect(String(openedUrl).startsWith('https://wa.me/573005944356?text=')).toBe(true);
+    expect(target).toBe('_blank');
+    expect(features).toBe('noopener,noreferrer');
 
     expect(screen.getByText(/¡confirmación guardada!/i)).toBeInTheDocument();
     expect(screen.getByText(/familia martínez/i)).toBeInTheDocument();
@@ -58,8 +70,8 @@ describe('RsvpSection', () => {
     expect(decoded).toContain('2 adultos');
     expect(decoded).toContain('1 niño');
     expect(decoded).toContain('¡Feliz primer añito Jacobo!');
+    expect(decoded).not.toMatch(/\p{Extended_Pictographic}/u);
 
-    // Remount and confirm persisted pass loads and can switch back to edit mode
     unmount();
     render(<RsvpSection config={EVENT_CONFIG} />);
 

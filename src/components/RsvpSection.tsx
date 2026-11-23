@@ -3,6 +3,7 @@ import { Check, CheckCircle2, Copy, Edit3, MessageCircle, Minus, Plus, Send, Use
 import type { EventConfig } from '../config/event';
 import { copyToClipboard } from '../utils/clipboard';
 import { fireSafeConfetti } from '../utils/confetti';
+import { playEnvelopeOpenChime } from '../utils/soundEffects';
 import {
   buildWhatsAppRsvpMessage,
   buildWhatsAppRsvpUrl,
@@ -19,6 +20,7 @@ import {
 
 interface RsvpSectionProps {
   readonly config: EventConfig;
+  readonly isMuted?: boolean;
 }
 
 const DEFAULT_FORM_VALUES: RsvpFormValues = {
@@ -29,7 +31,7 @@ const DEFAULT_FORM_VALUES: RsvpFormValues = {
   message: '',
 };
 
-export function RsvpSection({ config }: RsvpSectionProps) {
+export function RsvpSection({ config, isMuted = false }: RsvpSectionProps) {
   const [savedRecord, setSavedRecord] = useState<RsvpRecord | null>(() => loadSavedRsvp());
   const [formValues, setFormValues] = useState<RsvpFormValues>(() =>
     savedRecord
@@ -67,13 +69,20 @@ export function RsvpSection({ config }: RsvpSectionProps) {
     saveRsvp(record);
     setSavedRecord(record);
     setIsEditing(false);
+
     if (record.attending) {
+      playEnvelopeOpenChime(isMuted);
       fireSafeConfetti({
         particleCount: 55,
         spread: 65,
         origin: { y: 0.72 },
-        colors: ['#F4B942', '#3F734D', '#7CC0E5', '#F07167', '#FCE085'],
+        colors: ['#F4B942', '#3F734D', '#6EB5DC', '#F07167', '#FCE085'],
       });
+    }
+
+    const whatsappUrl = buildWhatsAppRsvpUrl(record, config);
+    if (typeof window !== 'undefined' && typeof window.open === 'function') {
+      window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
     }
   };
 
@@ -118,43 +127,39 @@ export function RsvpSection({ config }: RsvpSectionProps) {
   };
 
   return (
-    <section id="rsvp" aria-labelledby="rsvp-heading" className="px-4 pt-6 pb-20">
-      <div className="parchment-card mx-auto max-w-3xl overflow-hidden rounded-[2rem] p-6 sm:p-8">
+    <section id="rsvp" aria-labelledby="rsvp-heading" className="px-4 py-6">
+      <div className="storybook-card mx-auto max-w-3xl overflow-hidden rounded-[2.25rem] p-6 sm:p-8">
         <div className="flex flex-col items-center gap-6 md:flex-row md:items-start">
-          {/* Waving baby lion mascot directly echoing the end of the video */}
-          <div className="w-40 shrink-0 text-center md:w-48">
-            <div className="overflow-hidden rounded-3xl border-4 border-[#FFF9EE] bg-[#FFF9EE] shadow-md">
+          {/* Waving baby lion storybook cameo */}
+          <div className="w-40 shrink-0 text-center md:w-44">
+            <div className="cameo-circle mx-auto h-40 w-40 overflow-hidden rounded-full border-4 border-[#F4B942]">
               <img
                 src="/images/baby-lion-rsvp.png"
                 alt="Leoncito bebé sonriente con gorro de fiesta saludando"
-                className="animate-sway aspect-square w-full object-cover"
+                className="animate-sway h-full w-full object-cover"
               />
             </div>
-            <p className="mt-2 text-xs font-extrabold tracking-wide text-[#3F734D] uppercase">
-              ¡Te esperamos!
-            </p>
+            <p className="font-hand mt-2 text-xl text-[#3F734D]">¡Te esperamos!</p>
           </div>
 
           <div className="min-w-0 w-full flex-1">
-            <span className="inline-block rounded-full bg-[#F07167]/15 px-3 py-1 text-xs font-extrabold tracking-wider text-[#A8382F] uppercase">
-              Confirmar asistencia
-            </span>
-            <h2 id="rsvp-heading" className="font-display mt-2 text-2xl font-bold text-[#5C371B] sm:text-3xl">
+            <p className="font-hand text-xl text-[#B9463E]">Confirma tu lugar</p>
+            <h2 id="rsvp-heading" className="font-display text-2xl font-bold text-[#5C371B] sm:text-3xl">
               {config.rsvpHeading}
             </h2>
-            <p className="mt-1 text-sm font-semibold text-[#5C371B]/80">
-              Guarda tus datos y envíanos tu respuesta por WhatsApp en un toque.
+            <p className="mt-1 text-sm font-semibold text-[#5C371B]/85">
+              Al confirmar, abriremos WhatsApp con tu mensaje listo para enviarlo al instante.
             </p>
 
             {!isEditing && savedRecord ? (
-              <div className="mt-5 rounded-2xl border-2 border-[#3F734D]/35 bg-white/95 p-5 shadow-sm">
+              <div className="mt-5 rounded-3xl border-2 border-[#3F734D]/35 bg-white p-5 shadow-sm">
                 <div className="flex items-start gap-3">
                   <CheckCircle2 className="mt-0.5 h-6 w-6 shrink-0 text-[#244B32]" aria-hidden="true" />
                   <div>
                     <h3 className="font-display text-xl font-bold text-[#244B32]">
                       ¡Confirmación guardada!
                     </h3>
-                    <p className="mt-1 text-sm font-bold text-[#2b2118]">
+                    <p className="mt-1 text-sm font-bold text-[#362516]">
                       {savedRecord.guestName} ·{' '}
                       {savedRecord.attending
                         ? `Sí asistiremos (${savedRecord.adults} ${
@@ -167,7 +172,7 @@ export function RsvpSection({ config }: RsvpSectionProps) {
                         : 'No podremos asistir en esta ocasión'}
                     </p>
                     {savedRecord.message && (
-                      <p className="mt-2 rounded-xl bg-[#FFF9EE] p-3 text-sm italic text-[#5C371B]">
+                      <p className="mt-2 rounded-2xl bg-[#FDF6E7] p-3 text-sm italic text-[#5C371B]">
                         “{savedRecord.message}”
                       </p>
                     )}
@@ -179,7 +184,7 @@ export function RsvpSection({ config }: RsvpSectionProps) {
                     href={buildWhatsAppRsvpUrl(savedRecord, config)}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-[#1E8E3E] px-5 py-3 text-sm font-extrabold text-white shadow-md transition hover:bg-[#177030] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1E8E3E]"
+                    className="inline-flex flex-1 items-center justify-center gap-2 rounded-2xl border-b-4 border-[#15692c] bg-[#1E8E3E] px-5 py-3 text-sm font-bold text-white shadow-md transition hover:bg-[#177030] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1E8E3E]"
                   >
                     <MessageCircle className="h-4 w-4" aria-hidden="true" />
                     <span>Enviar confirmación por WhatsApp</span>
@@ -188,7 +193,7 @@ export function RsvpSection({ config }: RsvpSectionProps) {
                   <button
                     type="button"
                     onClick={handleCopyMessage}
-                    className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl border-2 border-[#7D4F28]/30 bg-[#FFF9EE] px-4 py-2.5 text-xs font-extrabold text-[#5C371B] transition hover:bg-[#f7ecda] sm:text-sm"
+                    className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-2xl border-2 border-[#7D4F28]/30 bg-[#FDF6E7] px-4 py-2.5 text-xs font-bold text-[#5C371B] transition hover:bg-[#f6ebd4] sm:text-sm"
                   >
                     {copiedMsg ? (
                       <>
@@ -206,7 +211,7 @@ export function RsvpSection({ config }: RsvpSectionProps) {
                   <button
                     type="button"
                     onClick={handleEdit}
-                    className="inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-xl px-3 py-2.5 text-xs font-extrabold text-[#3F734D] underline underline-offset-2 transition hover:text-[#244B32] sm:text-sm"
+                    className="inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-xl px-3 py-2.5 text-xs font-bold text-[#3F734D] underline underline-offset-2 transition hover:text-[#244B32] sm:text-sm"
                   >
                     <Edit3 className="h-4 w-4" aria-hidden="true" />
                     <span>Editar confirmación</span>
@@ -216,7 +221,7 @@ export function RsvpSection({ config }: RsvpSectionProps) {
             ) : (
               <form onSubmit={handleSubmit} noValidate className="mt-5 space-y-4">
                 <div>
-                  <label htmlFor="guest-name" className="block text-sm font-extrabold text-[#5C371B]">
+                  <label htmlFor="guest-name" className="block text-sm font-bold text-[#5C371B]">
                     Nombre o familia *
                   </label>
                   <input
@@ -232,7 +237,7 @@ export function RsvpSection({ config }: RsvpSectionProps) {
                         setErrors((prev) => ({ ...prev, guestName: undefined }));
                       }
                     }}
-                    className="mt-1.5 w-full rounded-xl border-2 border-[#9B6538]/30 bg-white px-4 py-3 text-sm font-semibold text-[#2b2118] placeholder:text-[#8d7660] focus:border-[#244B32] focus:outline-none"
+                    className="mt-1.5 w-full rounded-2xl border-2 border-[#d9bf94] bg-white px-4 py-3 text-sm font-semibold text-[#362516] placeholder:text-[#8d7660] focus:border-[#244B32] focus:outline-none"
                   />
                   {errors.guestName && (
                     <p role="alert" className="mt-1 text-xs font-bold text-[#B91C1C]">
@@ -242,38 +247,38 @@ export function RsvpSection({ config }: RsvpSectionProps) {
                 </div>
 
                 <div>
-                  <span className="block text-sm font-extrabold text-[#5C371B]">¿Nos acompañas?</span>
+                  <span className="block text-sm font-bold text-[#5C371B]">¿Nos acompañas?</span>
                   <div className="mt-1.5 grid grid-cols-2 gap-2.5">
                     <button
                       type="button"
                       onClick={() => setFormValues((prev) => ({ ...prev, attending: true }))}
-                      className={`cursor-pointer rounded-xl border-2 px-3 py-2.5 text-xs font-extrabold transition sm:text-sm ${
+                      className={`cursor-pointer rounded-2xl border-2 px-3 py-2.5 text-xs font-bold transition sm:text-sm ${
                         formValues.attending
                           ? 'border-[#244B32] bg-[#244B32] text-white shadow'
-                          : 'border-[#9B6538]/25 bg-white text-[#5C371B] hover:bg-[#FFF9EE]'
+                          : 'border-[#d9bf94] bg-white text-[#5C371B] hover:bg-[#FDF6E7]'
                       }`}
                     >
-                      🦁 ¡Sí, allá estaremos!
+                      Sí, allá estaremos
                     </button>
 
                     <button
                       type="button"
                       onClick={() => setFormValues((prev) => ({ ...prev, attending: false }))}
-                      className={`cursor-pointer rounded-xl border-2 px-3 py-2.5 text-xs font-extrabold transition sm:text-sm ${
+                      className={`cursor-pointer rounded-2xl border-2 px-3 py-2.5 text-xs font-bold transition sm:text-sm ${
                         !formValues.attending
                           ? 'border-[#7D4F28] bg-[#7D4F28] text-white shadow'
-                          : 'border-[#9B6538]/25 bg-white text-[#5C371B] hover:bg-[#FFF9EE]'
+                          : 'border-[#d9bf94] bg-white text-[#5C371B] hover:bg-[#FDF6E7]'
                       }`}
                     >
-                      💛 No podremos asistir
+                      No podremos asistir
                     </button>
                   </div>
                 </div>
 
                 {formValues.attending && (
-                  <div className="grid grid-cols-2 gap-3 rounded-2xl border border-[#8BB174]/35 bg-white/85 p-3.5">
+                  <div className="grid grid-cols-2 gap-3 rounded-2xl border-2 border-dashed border-[#8BB174]/55 bg-white/85 p-3.5">
                     <div>
-                      <span className="flex items-center gap-1.5 text-xs font-extrabold text-[#5C371B] uppercase">
+                      <span className="flex items-center gap-1.5 text-xs font-bold text-[#5C371B]">
                         <Users className="h-3.5 w-3.5 text-[#3F734D]" aria-hidden="true" />
                         <span>Adultos</span>
                       </span>
@@ -282,7 +287,7 @@ export function RsvpSection({ config }: RsvpSectionProps) {
                           type="button"
                           aria-label="Restar adulto"
                           onClick={() => adjustAdults(-1)}
-                          className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg border border-[#9B6538]/30 bg-[#FFF9EE] text-[#5C371B] hover:bg-[#f7ecda]"
+                          className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-xl border border-[#d9bf94] bg-[#FDF6E7] text-[#5C371B] hover:bg-[#f6ebd4]"
                         >
                           <Minus className="h-4 w-4" aria-hidden="true" />
                         </button>
@@ -293,7 +298,7 @@ export function RsvpSection({ config }: RsvpSectionProps) {
                           type="button"
                           aria-label="Sumar adulto"
                           onClick={() => adjustAdults(1)}
-                          className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg border border-[#9B6538]/30 bg-[#FFF9EE] text-[#5C371B] hover:bg-[#f7ecda]"
+                          className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-xl border border-[#d9bf94] bg-[#FDF6E7] text-[#5C371B] hover:bg-[#f6ebd4]"
                         >
                           <Plus className="h-4 w-4" aria-hidden="true" />
                         </button>
@@ -306,13 +311,13 @@ export function RsvpSection({ config }: RsvpSectionProps) {
                     </div>
 
                     <div>
-                      <span className="block text-xs font-extrabold text-[#5C371B] uppercase">Niños</span>
+                      <span className="block text-xs font-bold text-[#5C371B]">Niños</span>
                       <div className="mt-2 flex items-center gap-2">
                         <button
                           type="button"
                           aria-label="Restar niño"
                           onClick={() => adjustChildren(-1)}
-                          className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg border border-[#9B6538]/30 bg-[#FFF9EE] text-[#5C371B] hover:bg-[#f7ecda]"
+                          className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-xl border border-[#d9bf94] bg-[#FDF6E7] text-[#5C371B] hover:bg-[#f6ebd4]"
                         >
                           <Minus className="h-4 w-4" aria-hidden="true" />
                         </button>
@@ -323,7 +328,7 @@ export function RsvpSection({ config }: RsvpSectionProps) {
                           type="button"
                           aria-label="Sumar niño"
                           onClick={() => adjustChildren(1)}
-                          className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg border border-[#9B6538]/30 bg-[#FFF9EE] text-[#5C371B] hover:bg-[#f7ecda]"
+                          className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-xl border border-[#d9bf94] bg-[#FDF6E7] text-[#5C371B] hover:bg-[#f6ebd4]"
                         >
                           <Plus className="h-4 w-4" aria-hidden="true" />
                         </button>
@@ -338,7 +343,7 @@ export function RsvpSection({ config }: RsvpSectionProps) {
                 )}
 
                 <div>
-                  <label htmlFor="guest-message" className="block text-sm font-extrabold text-[#5C371B]">
+                  <label htmlFor="guest-message" className="block text-sm font-bold text-[#5C371B]">
                     Mensaje para Jacobo (opcional)
                   </label>
                   <textarea
@@ -350,7 +355,7 @@ export function RsvpSection({ config }: RsvpSectionProps) {
                     onChange={(event) =>
                       setFormValues((prev) => ({ ...prev, message: event.target.value }))
                     }
-                    className="mt-1.5 w-full rounded-xl border-2 border-[#9B6538]/30 bg-white px-4 py-2.5 text-sm font-semibold text-[#2b2118] placeholder:text-[#8d7660] focus:border-[#244B32] focus:outline-none"
+                    className="mt-1.5 w-full rounded-2xl border-2 border-[#d9bf94] bg-white px-4 py-2.5 text-sm font-semibold text-[#362516] placeholder:text-[#8d7660] focus:border-[#244B32] focus:outline-none"
                   />
                   {errors.message && (
                     <p role="alert" className="mt-1 text-xs font-bold text-[#B91C1C]">
@@ -361,10 +366,10 @@ export function RsvpSection({ config }: RsvpSectionProps) {
 
                 <button
                   type="submit"
-                  className="inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-[#244B32] px-5 py-3.5 text-base font-extrabold text-[#FFF9EE] shadow-lg transition hover:bg-[#1b3a26] active:scale-[0.99] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#244B32]"
+                  className="inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-2xl border-b-4 border-[#15692c] bg-[#1E8E3E] px-5 py-3.5 text-base font-bold text-white shadow-lg transition hover:bg-[#177030] active:translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1E8E3E]"
                 >
                   <Send className="h-4 w-4 text-[#FCE085]" aria-hidden="true" />
-                  <span>Guardar y preparar WhatsApp</span>
+                  <span>Confirmar por WhatsApp</span>
                 </button>
               </form>
             )}

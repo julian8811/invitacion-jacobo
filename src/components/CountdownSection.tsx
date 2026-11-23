@@ -12,6 +12,13 @@ function padUnit(value: number): string {
   return String(value).padStart(2, '0');
 }
 
+const BLOCK_STYLES = [
+  'bg-[#F07167] border-[#C64E45] text-white -rotate-1',
+  'bg-[#6EB5DC] border-[#488EB6] text-white rotate-1',
+  'bg-[#6EC498] border-[#45976E] text-white -rotate-1',
+  'bg-[#F4B942] border-[#C28A1C] text-[#4A2B13] rotate-1',
+] as const;
+
 export function CountdownSection({ config }: CountdownSectionProps) {
   const [snapshot, setSnapshot] = useState<CountdownSnapshot>(() =>
     getCountdownSnapshot(config.startIso, config.endIso),
@@ -48,21 +55,19 @@ export function CountdownSection({ config }: CountdownSectionProps) {
 
   return (
     <section aria-labelledby="countdown-heading" className="px-4 py-6">
-      <div className="parchment-card relative mx-auto max-w-3xl overflow-hidden rounded-[2rem] p-6 sm:p-8">
+      <div className="storybook-card relative mx-auto max-w-3xl overflow-hidden rounded-[2.25rem] p-6 sm:p-8">
         <div className="flex flex-col items-center gap-6 sm:flex-row">
-          <div className="w-36 shrink-0 overflow-hidden rounded-3xl border-4 border-[#FFF9EE] bg-[#FFF9EE] shadow-md sm:w-44">
+          <div className="cameo-circle h-36 w-36 shrink-0 overflow-hidden rounded-full sm:h-44 sm:w-44">
             <img
               src="/images/baby-monkey-vine.png"
               alt="Monito alegre colgado de una liana con flores tropicales"
-              className="animate-sway aspect-square w-full object-cover"
+              className="animate-sway h-full w-full object-cover"
             />
           </div>
 
           <div className="min-w-0 w-full flex-1 text-center sm:text-left">
-            <span className="inline-block rounded-full bg-[#3F734D]/12 px-3 py-1 text-xs font-extrabold tracking-wider text-[#244B32] uppercase">
-              Cuenta regresiva
-            </span>
-            <h2 id="countdown-heading" className="font-display mt-2 text-2xl font-bold text-[#5C371B] sm:text-3xl">
+            <p className="font-hand text-xl text-[#3F734D]">Cuenta regresiva</p>
+            <h2 id="countdown-heading" className="font-display text-2xl font-bold text-[#5C371B] sm:text-3xl">
               {snapshot.phase === 'today'
                 ? '¡Hoy celebramos el primer añito de Jacobo!'
                 : snapshot.phase === 'past'
@@ -72,22 +77,22 @@ export function CountdownSection({ config }: CountdownSectionProps) {
 
             {snapshot.phase === 'upcoming' ? (
               <div className="mt-4 grid grid-cols-4 gap-2 sm:gap-3" role="timer" aria-live="off">
-                {units.map((unit) => (
+                {units.map((unit, idx) => (
                   <div
                     key={unit.label}
-                    className="wood-plank flex flex-col items-center justify-center rounded-2xl px-1.5 py-2.5 text-white sm:px-2 sm:py-3"
+                    className={`toy-block flex flex-col items-center justify-center rounded-2xl px-1.5 py-2.5 sm:px-2 sm:py-3 ${BLOCK_STYLES[idx]}`}
                   >
-                    <span className="font-display text-xl font-bold tabular-nums text-[#FCE085] sm:text-3xl">
+                    <span className="font-display text-xl font-extrabold tabular-nums sm:text-3xl">
                       {unit.value}
                     </span>
-                    <span className="mt-0.5 text-[10px] font-bold tracking-wide text-[#FFF8E8] uppercase sm:text-xs">
+                    <span className="mt-0.5 text-[10px] font-bold tracking-wide uppercase sm:text-xs">
                       {unit.label}
                     </span>
                   </div>
                 ))}
               </div>
             ) : (
-              <p className="mt-3 rounded-2xl border border-[#8BB174]/40 bg-white/80 p-3.5 text-sm font-bold text-[#244B32]">
+              <p className="stitched-panel mt-3 rounded-2xl p-3.5 text-sm font-bold text-[#244B32]">
                 {snapshot.phase === 'today'
                   ? `Te esperamos a las ${config.timeDisplay} en el ${config.venueSpace} de la ${config.venueName}.`
                   : 'Guardamos este recuerdo con muchísimo cariño.'}
@@ -99,7 +104,7 @@ export function CountdownSection({ config }: CountdownSectionProps) {
                 href={buildGoogleCalendarUrl(config)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-xl bg-[#244B32] px-4 py-2.5 text-xs font-extrabold text-white shadow transition hover:bg-[#1b3a26] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#244B32] sm:text-sm"
+                className="inline-flex items-center gap-2 rounded-2xl border-b-4 border-[#183522] bg-[#244B32] px-4 py-2.5 text-xs font-bold text-white shadow transition hover:bg-[#2d5d3e] sm:text-sm"
               >
                 <CalendarPlus className="h-4 w-4 text-[#FCE085]" aria-hidden="true" />
                 <span>Agregar a Google Calendar</span>
@@ -108,7 +113,7 @@ export function CountdownSection({ config }: CountdownSectionProps) {
               <button
                 type="button"
                 onClick={handleDownloadIcs}
-                className="inline-flex cursor-pointer items-center gap-2 rounded-xl border-2 border-[#7D4F28]/35 bg-white px-4 py-2.5 text-xs font-extrabold text-[#5C371B] shadow-sm transition hover:bg-[#FFF9EE] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#5C371B] sm:text-sm"
+                className="inline-flex cursor-pointer items-center gap-2 rounded-2xl border-2 border-[#7D4F28]/35 bg-white px-4 py-2.5 text-xs font-bold text-[#5C371B] shadow-sm transition hover:bg-[#FFF9EE] sm:text-sm"
               >
                 <Download className="h-4 w-4 text-[#7D4F28]" aria-hidden="true" />
                 <span>Guardar recordatorio (.ics)</span>
