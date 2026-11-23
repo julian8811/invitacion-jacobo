@@ -16,11 +16,13 @@ describe('App storybook invitation flow', () => {
     cleanup();
   });
 
-  it('reveals interactive kids features, share card, zero emojis, and zero gift references', async () => {
+  it('displays 3:00 p. m., removes safari friends and on-page share card, keeps cake game, and has zero emojis/gifts', async () => {
     const user = userEvent.setup();
     const { container } = render(<App />);
 
     expect(screen.getByRole('heading', { name: /¡mi primer añito!/i })).toBeInTheDocument();
+    expect(screen.getByText(/3:00 p\. m\./i)).toBeInTheDocument();
+    expect(screen.queryByText(/4:00 p\. m\./i)).not.toBeInTheDocument();
     expect(container.textContent ?? '').not.toMatch(/\p{Extended_Pictographic}/u);
     expect(container.textContent?.toLowerCase()).not.toContain('regalo');
     expect(container.textContent?.toLowerCase()).not.toContain('lluvia de sobres');
@@ -31,20 +33,17 @@ describe('App storybook invitation flow', () => {
       await screen.findByRole('heading', { name: /¡confirma tu asistencia aquí abajo!/i }),
     ).toBeInTheDocument();
 
-    // Test interactive Safari Friends meadow
-    await user.click(screen.getByRole('button', { name: /saludar a leoncito/i }));
-    expect(screen.getByText(/saludaste a 1 de 3 amigos/i)).toBeInTheDocument();
-    expect(screen.getByText(/te espero con muchos globos/i)).toBeInTheDocument();
+    // Confirm 3:00 p. m. and absence of removed sections
+    expect(screen.getByText(/3:00 p\. m\./i)).toBeInTheDocument();
+    expect(screen.queryByText(/4:00 p\. m\./i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/toca a los amigos de jacobo/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/comparte esta tarjeta por whatsapp/i)).not.toBeInTheDocument();
 
-    // Test interactive Birthday Cake candle mini-game
+    // Keep interactive Birthday Cake candle mini-game
     await user.click(screen.getByRole('button', { name: /^soplar la velita$/i }));
     expect(screen.getByText(/¡deseo pedido!/i)).toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: /volver a encender/i }));
     expect(screen.getByRole('button', { name: /^soplar la velita$/i })).toBeInTheDocument();
-
-    // Test shareable WhatsApp card section
-    const shareLink = screen.getByRole('link', { name: /enviar tarjeta por whatsapp/i });
-    expect(shareLink.getAttribute('href')?.startsWith('https://wa.me/?text=')).toBe(true);
 
     // Strictly verify ZERO emojis and ZERO gift/registry words across full page
     const fullText = container.textContent ?? '';

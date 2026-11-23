@@ -61,7 +61,7 @@ export function EnvelopeIntro({ config, onOpen }: EnvelopeIntroProps) {
             aria-hidden="true"
             className="absolute top-3 right-3 rotate-6 rounded-full border-2 border-dashed border-[#C77D4E]/55 px-2.5 py-1 text-[10px] font-bold tracking-wider text-[#965A34]"
           >
-            13 DIC · 4 PM
+            13 DIC · 3 PM
           </div>
 
           <div className="cameo-circle mx-auto mb-3 h-32 w-32 overflow-hidden rounded-full sm:h-36 sm:w-36">

@@ -62,31 +62,6 @@ export function playEnvelopeOpenChime(isMuted: boolean): void {
   ]);
 }
 
-export function playAnimalChime(animal: 'lion' | 'elephant' | 'monkey', isMuted: boolean): void {
-  if (isMuted) {
-    return;
-  }
-  if (animal === 'lion') {
-    playToneSequence([
-      { freq: 392.0, duration: 0.14, delay: 0, type: 'sine' },
-      { freq: 493.88, duration: 0.18, delay: 0.1, type: 'triangle' },
-    ]);
-    return;
-  }
-  if (animal === 'elephant') {
-    playToneSequence([
-      { freq: 329.63, duration: 0.16, delay: 0, type: 'triangle' },
-      { freq: 523.25, duration: 0.22, delay: 0.11, type: 'triangle' },
-    ]);
-    return;
-  }
-  playToneSequence([
-    { freq: 587.33, duration: 0.1, delay: 0, type: 'sine' },
-    { freq: 698.46, duration: 0.1, delay: 0.08, type: 'sine' },
-    { freq: 880.0, duration: 0.16, delay: 0.16, type: 'sine' },
-  ]);
-}
-
 export function playBalloonPopSound(isMuted: boolean): void {
   if (isMuted) {
     return;

@@ -85,7 +85,7 @@ describe('WhatsApp RSVP message and URL builders', () => {
     expect(text).toContain('2 adultos');
     expect(text).toContain('1 niño');
     expect(text).toContain('¡Feliz primer añito Jacobo!');
-    expect(text).toContain('4:00 p. m.');
+    expect(text).toContain('3:00 p. m.');
 
     const url = buildWhatsAppRsvpUrl(values, EVENT_CONFIG);
     expect(url.startsWith('https://wa.me/573005944356?text=')).toBe(true);
