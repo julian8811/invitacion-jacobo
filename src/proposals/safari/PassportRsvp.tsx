@@ -38,28 +38,30 @@ export function PassportRsvp({ config, isMuted }: PassportRsvpProps) {
             </motion.div>
           </div>
 
-          <SharedRsvpForm
-            config={config}
-            isMuted={isMuted}
-            confettiColors={['#1B4332', '#235B8C', '#E09F24', '#4D8B55', '#B4691E']}
-            submitLabel="Estampar confirmación"
-            accentClassName="border-[#0E271D] bg-[#1B4332] hover:bg-[#245842]"
-            onSuccess={() => setStamped(true)}
-            headingSlot={
-              <div>
-                <p className="font-hand text-xl text-[#B4691E]">Puesto de campamento</p>
-                <h2
-                  id="safari-rsvp-heading"
-                  className="font-display text-2xl font-bold text-[#4E2E14] sm:text-3xl"
-                >
-                  {config.rsvpHeading}
-                </h2>
-                <p className="mt-1 text-sm font-semibold text-[#3D240F]/85">
-                  Al confirmar, abriremos WhatsApp con tu mensaje listo para enviarlo al instante.
-                </p>
-              </div>
-            }
-          />
+          <div className="min-w-0 flex-1 rounded-[1.75rem] bg-[#FFFDF6] p-4 text-[#3D240F] shadow-inner sm:p-5">
+            <SharedRsvpForm
+              config={config}
+              isMuted={isMuted}
+              confettiColors={['#1B4332', '#235B8C', '#E09F24', '#4D8B55', '#B4691E']}
+              submitLabel="Estampar confirmación"
+              accentClassName="border-[#0E271D] bg-[#1B4332] hover:bg-[#245842]"
+              onSuccess={() => setStamped(true)}
+              headingSlot={
+                <div>
+                  <p className="font-hand text-xl text-[#B4691E]">Puesto de campamento</p>
+                  <h2
+                    id="safari-rsvp-heading"
+                    className="font-display text-2xl font-bold text-[#4E2E14] sm:text-3xl"
+                  >
+                    {config.rsvpHeading}
+                  </h2>
+                  <p className="mt-1 text-sm font-semibold text-[#3D240F]/85">
+                    Al confirmar, abriremos WhatsApp con tu mensaje listo para enviarlo al instante.
+                  </p>
+                </div>
+              }
+            />
+          </div>
         </div>
       </div>
     </section>
