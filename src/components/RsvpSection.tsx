@@ -135,7 +135,7 @@ export function RsvpSection({ config }: RsvpSectionProps) {
             </p>
           </div>
 
-          <div className="w-full flex-1">
+          <div className="min-w-0 w-full flex-1">
             <span className="inline-block rounded-full bg-[#F07167]/15 px-3 py-1 text-xs font-extrabold tracking-wider text-[#A8382F] uppercase">
               Confirmar asistencia
             </span>

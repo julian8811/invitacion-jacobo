@@ -58,7 +58,7 @@ export function CountdownSection({ config }: CountdownSectionProps) {
             />
           </div>
 
-          <div className="flex-1 text-center sm:text-left">
+          <div className="min-w-0 w-full flex-1 text-center sm:text-left">
             <span className="inline-block rounded-full bg-[#3F734D]/12 px-3 py-1 text-xs font-extrabold tracking-wider text-[#244B32] uppercase">
               Cuenta regresiva
             </span>
@@ -75,12 +75,12 @@ export function CountdownSection({ config }: CountdownSectionProps) {
                 {units.map((unit) => (
                   <div
                     key={unit.label}
-                    className="wood-plank flex flex-col items-center justify-center rounded-2xl px-2 py-3 text-white"
+                    className="wood-plank flex flex-col items-center justify-center rounded-2xl px-1.5 py-2.5 text-white sm:px-2 sm:py-3"
                   >
-                    <span className="font-display text-2xl font-bold tabular-nums text-[#FCE085] sm:text-3xl">
+                    <span className="font-display text-xl font-bold tabular-nums text-[#FCE085] sm:text-3xl">
                       {unit.value}
                     </span>
-                    <span className="mt-0.5 text-[11px] font-bold tracking-wide text-[#FFF8E8] uppercase sm:text-xs">
+                    <span className="mt-0.5 text-[10px] font-bold tracking-wide text-[#FFF8E8] uppercase sm:text-xs">
                       {unit.label}
                     </span>
                   </div>

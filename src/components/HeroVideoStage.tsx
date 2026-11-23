@@ -180,7 +180,7 @@ export function HeroVideoStage({
         </div>
 
         {/* Rustic wooden signboard faithful to the video's central sign */}
-        <div className="wood-signboard relative mx-auto -mt-3 max-w-2xl rounded-[1.75rem] px-5 py-7 text-center text-[#FFF8E8] sm:px-8 sm:py-9">
+        <div className="wood-signboard relative mx-auto mt-4 max-w-2xl rounded-[1.75rem] px-5 py-7 text-center text-[#FFF8E8] sm:px-8 sm:py-9">
           <span aria-hidden="true" className="absolute top-3.5 left-4 h-3 w-3 rounded-full bg-[#3A210D] shadow-inner" />
           <span aria-hidden="true" className="absolute top-3.5 right-4 h-3 w-3 rounded-full bg-[#3A210D] shadow-inner" />
           <span aria-hidden="true" className="absolute bottom-3.5 left-4 h-3 w-3 rounded-full bg-[#3A210D] shadow-inner" />
