@@ -1,19 +1,23 @@
 @import "tailwindcss";
 
 :root {
-  --paper-cream: #fdf6e7;
-  --paper-warm: #f6ebd4;
-  --jungle-deep: #244b32;
-  --jungle-leaf: #3f734d;
-  --meadow-sage: #dfecd6;
-  --wood-dark: #4e2e14;
-  --wood-mid: #7d4f28;
-  --wood-light: #a26e3f;
-  --sun-gold: #f4b942;
-  --coral-pastel: #f07167;
-  --sky-pastel: #6eb5dc;
-  --mint-pastel: #6ec498;
-  --butter-pastel: #fce085;
+  --explorer-paper: #f5eedb;
+  --explorer-forest: #1b4332;
+  --explorer-cobalt: #235b8c;
+  --explorer-ochre: #e09f24;
+  --explorer-wood: #6f4220;
+
+  --selva-sky: #ddf2ff;
+  --selva-meadow: #ecf9e4;
+  --selva-emerald: #1e7e45;
+  --selva-royal: #2168b0;
+  --selva-turquoise: #0e8fa3;
+  --selva-mango: #f5a623;
+
+  --camp-pine: #0f2e24;
+  --camp-canopy: #173e31;
+  --camp-gold: #f6bd3a;
+  --camp-parchment: #fcf6e8;
 }
 
 html {
@@ -23,81 +27,148 @@ html {
 
 body {
   margin: 0;
-  font-family: 'Quicksand', system-ui, -apple-system, sans-serif;
-  background-color: var(--paper-cream);
-  background-image:
-    radial-gradient(circle at 12% 10%, rgba(252, 224, 133, 0.28) 0%, transparent 36%),
-    radial-gradient(circle at 88% 24%, rgba(143, 212, 174, 0.22) 0%, transparent 34%),
-    radial-gradient(circle at 20% 72%, rgba(124, 192, 229, 0.16) 0%, transparent 40%),
-    radial-gradient(rgba(125, 79, 40, 0.055) 1px, transparent 1px);
-  background-size: auto, auto, auto, 24px 24px;
-  color: #362516;
+  font-family: 'Nunito', 'Quicksand', system-ui, -apple-system, sans-serif;
+  color: #261b10;
+  background-color: var(--explorer-paper);
   overflow-x: hidden;
 }
 
 .font-display {
-  font-family: 'Baloo 2', 'Quicksand', system-ui, sans-serif;
+  font-family: 'Baloo 2', 'Fredoka', system-ui, sans-serif;
+}
+
+.font-fredoka {
+  font-family: 'Fredoka', 'Baloo 2', system-ui, sans-serif;
+}
+
+.font-nunito {
+  font-family: 'Nunito', 'Quicksand', system-ui, sans-serif;
 }
 
 .font-hand {
   font-family: 'Patrick Hand', 'Quicksand', cursive;
 }
 
-.storybook-card {
-  background: linear-gradient(180deg, #fffdf8 0%, #fbf1dc 100%);
-  border: 2.5px solid #d9bf94;
+/* Proposal 1: Pequeño Explorador (Expedition Field Journal) */
+.theme-explorador {
+  background-color: #f5eedb;
+  background-image:
+    radial-gradient(circle at 12% 8%, rgba(224, 159, 36, 0.22) 0%, transparent 38%),
+    radial-gradient(circle at 88% 18%, rgba(63, 125, 76, 0.18) 0%, transparent 36%),
+    radial-gradient(circle at 18% 78%, rgba(35, 91, 140, 0.14) 0%, transparent 42%),
+    radial-gradient(rgba(111, 66, 32, 0.08) 1px, transparent 1px);
+  background-size: auto, auto, auto, 22px 22px;
+  color: #2f2012;
+}
+
+.explorer-journal {
+  background: linear-gradient(180deg, #fffcf3 0%, #f3e7ca 100%);
+  border: 2.5px solid #8b6136;
   box-shadow:
-    0 14px 30px rgba(78, 46, 20, 0.09),
-    inset 0 2px 0 rgba(255, 255, 255, 0.9);
+    0 16px 34px rgba(27, 67, 50, 0.14),
+    inset 0 2px 0 rgba(255, 255, 255, 0.92);
 }
 
-.stitched-panel {
-  border: 2px dashed rgba(125, 79, 40, 0.34);
-  background: rgba(255, 252, 244, 0.82);
-}
-
-.wooden-sign {
+.explorer-wood-plaque {
   background:
     repeating-linear-gradient(
       0deg,
-      rgba(255, 232, 198, 0.05) 0px,
-      rgba(255, 232, 198, 0.05) 20px,
-      rgba(48, 25, 8, 0.08) 20px,
-      rgba(48, 25, 8, 0.08) 42px
+      rgba(255, 232, 198, 0.04) 0px,
+      rgba(255, 232, 198, 0.04) 18px,
+      rgba(34, 18, 6, 0.09) 18px,
+      rgba(34, 18, 6, 0.09) 36px
     ),
-    linear-gradient(180deg, #9b6437 0%, #7d4f28 52%, #633b1a 100%);
-  border: 3px solid #4e2e14;
+    linear-gradient(180deg, #7f4e27 0%, #613919 56%, #4a2a11 100%);
+  border: 3px solid #381e0b;
   box-shadow:
-    0 16px 32px rgba(56, 32, 12, 0.24),
-    inset 0 3px 0 rgba(255, 233, 199, 0.3),
-    inset 0 -4px 8px rgba(34, 17, 5, 0.45);
+    0 18px 36px rgba(34, 20, 8, 0.28),
+    inset 0 2px 0 rgba(255, 230, 186, 0.28),
+    inset 0 -4px 10px rgba(25, 13, 4, 0.45);
 }
 
-.scrapbook-tag {
-  background: #fffdf8;
-  border: 2px solid #dec59c;
-  box-shadow: 0 6px 14px rgba(78, 46, 20, 0.1);
+.explorer-stamp {
+  background: rgba(255, 252, 243, 0.92);
+  border: 2px dashed rgba(35, 91, 140, 0.45);
+  box-shadow: 0 6px 14px rgba(27, 67, 50, 0.08);
 }
 
-.kraft-envelope-body {
-  background: linear-gradient(165deg, #e7c697 0%, #d5a973 55%, #c18e54 100%);
-  border: 2.5px solid #966334;
+/* Proposal 2: Selva Viva (Sunlit Boy Treehouse & Vibrant Canopy) */
+.theme-selva-viva {
+  background: linear-gradient(180deg, #cdeaff 0%, #e4f5ea 36%, #eef8e2 76%, #e1f3da 100%);
+  background-attachment: fixed;
+  color: #163322;
+}
+
+.selva-treehouse-card {
+  background: linear-gradient(180deg, #ffffff 0%, #f4fbf0 100%);
+  border: 3px solid #6dbb79;
   box-shadow:
-    0 22px 44px rgba(72, 43, 17, 0.22),
-    inset 0 2px 0 rgba(255, 245, 224, 0.5);
+    0 18px 36px rgba(33, 104, 176, 0.14),
+    inset 0 3px 0 rgba(255, 255, 255, 1);
+}
+
+.selva-bamboo-frame {
+  border: 4px solid #7c4a21;
+  box-shadow:
+    0 18px 36px rgba(22, 51, 34, 0.22),
+    0 0 0 4px #4da866;
+}
+
+/* Proposal 3: Campamento en la Selva (Twilight Fireflies & Lanterns) */
+.theme-campamento {
+  background-color: #0f2e24;
+  background-image:
+    radial-gradient(circle at 22% 12%, rgba(246, 189, 58, 0.2) 0%, transparent 34%),
+    radial-gradient(circle at 82% 20%, rgba(43, 108, 176, 0.22) 0%, transparent 38%),
+    radial-gradient(circle at 50% 65%, rgba(45, 138, 104, 0.24) 0%, transparent 48%),
+    radial-gradient(rgba(251, 225, 146, 0.18) 1.2px, transparent 1.2px),
+    linear-gradient(180deg, #0d261e 0%, #14372b 52%, #0e2922 100%);
+  background-size: auto, auto, auto, 38px 38px, auto;
+  color: #f9f3e2;
+}
+
+.camp-parchment-card {
+  background: linear-gradient(180deg, #fefaf0 0%, #f5ebd2 100%);
+  border: 2.5px solid #d7a645;
+  color: #173326;
+  box-shadow:
+    0 20px 44px rgba(5, 16, 12, 0.45),
+    0 0 24px rgba(246, 189, 58, 0.16),
+    inset 0 2px 0 rgba(255, 255, 255, 0.9);
+}
+
+.camp-lantern-frame {
+  border: 3.5px solid #d7a645;
+  box-shadow:
+    0 22px 46px rgba(5, 16, 12, 0.55),
+    0 0 28px rgba(246, 189, 58, 0.2);
+}
+
+/* Shared tactile storybook utilities */
+.stitched-panel {
+  border: 2px dashed rgba(111, 66, 32, 0.36);
+  background: rgba(255, 252, 244, 0.88);
 }
 
 .cameo-circle {
-  background: radial-gradient(circle, #fffdf8 58%, #f4e6cb 100%);
+  background: radial-gradient(circle, #fffdf8 58%, #f0e3c6 100%);
   border: 4px solid #fffdf8;
   box-shadow:
-    0 8px 20px rgba(78, 46, 20, 0.16),
-    0 0 0 2.5px rgba(155, 101, 56, 0.26);
+    0 10px 22px rgba(27, 67, 50, 0.18),
+    0 0 0 2.5px rgba(111, 66, 32, 0.24);
 }
 
 .toy-block {
   border-bottom-width: 5px;
-  box-shadow: 0 8px 16px rgba(56, 32, 12, 0.14);
+  box-shadow: 0 8px 16px rgba(27, 45, 34, 0.16);
+}
+
+.kraft-envelope-body {
+  background: linear-gradient(165deg, #e7c99a 0%, #d4aa72 56%, #bd8b4e 100%);
+  border: 2.5px solid #8a5a2c;
+  box-shadow:
+    0 22px 44px rgba(34, 24, 12, 0.24),
+    inset 0 2px 0 rgba(255, 245, 224, 0.52);
 }
 
 .envelope-flap {
@@ -145,6 +216,17 @@ body {
   }
 }
 
+@keyframes fireflyPulse {
+  0%, 100% {
+    opacity: 0.35;
+    transform: scale(0.92);
+  }
+  50% {
+    opacity: 0.95;
+    transform: scale(1.12);
+  }
+}
+
 .animate-sway {
   animation: gentleSway 5.4s ease-in-out infinite;
 }
@@ -157,6 +239,10 @@ body {
   animation: balloonFloat 4.8s ease-in-out infinite;
 }
 
+.animate-firefly {
+  animation: fireflyPulse 3.2s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -165,9 +251,28 @@ body {
   .animate-sway,
   .animate-cloud,
   .animate-balloon,
+  .animate-firefly,
   .envelope-flap,
   .envelope-letter-rise {
     animation: none !important;
     transition: none !important;
+  }
+}
+
+@page {
+  size: 540px 675px;
+  margin: 0;
+}
+
+@media print {
+  html,
+  body {
+    width: 540px;
+    height: 675px;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
 }

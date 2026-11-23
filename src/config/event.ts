@@ -21,10 +21,11 @@ export interface EventConfig {
   readonly rsvpHeading: string;
   readonly videoSrc: string;
   readonly posterSrc: string;
+  readonly liveUrl: string;
 }
 
 /**
- * Single source of truth for Jacobo Pineda's 1st birthday celebration.
+ * Single source of truth for Jacobo Pineda Jaramillo's 1st birthday celebration.
  * Intentionally excludes any gift or rain-of-envelopes metadata per user instruction.
  */
 export const EVENT_CONFIG: EventConfig = {
@@ -52,5 +53,6 @@ export const EVENT_CONFIG: EventConfig = {
   whatsappCountryCode: '57',
   rsvpHeading: '¡Confirma tu asistencia aquí abajo!',
   videoSrc: '/media/invitacion-jacobo.mp4',
-  posterSrc: '/og-cover.png',
+  posterSrc: '/images/p1-explorer-hero.png',
+  liveUrl: 'https://invitacion-jacobo.vercel.app',
 };
