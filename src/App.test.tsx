@@ -7,31 +7,23 @@ vi.mock('canvas-confetti', () => ({
   default: vi.fn(),
 }));
 
-vi.mock('@react-three/fiber', () => ({
-  Canvas: ({ children }: { children?: React.ReactNode }) => <div data-testid="r3f-canvas">{children}</div>,
-  useFrame: () => undefined,
-  useThree: () => ({ camera: {}, size: { width: 100, height: 100 } }),
-}));
-
-vi.mock('@react-three/drei', () => ({
-  Html: ({ children }: { children?: React.ReactNode }) => <div>{children}</div>,
-  OrbitControls: () => null,
-  Stars: () => null,
-}));
-
-describe('App proposal experiences', () => {
+describe('App Safari invitation flow', () => {
   beforeEach(() => {
     window.localStorage.clear();
-    window.history.replaceState({}, '', '/?propuesta=1');
+    window.history.replaceState({}, '', '/');
   });
 
   afterEach(() => {
     cleanup();
   });
 
-  it('renders Safari proposal cover, opens cleanly, and upholds all exclusions', async () => {
+  it('renders Safari cover without proposal switcher, opens cleanly, and upholds exclusions', async () => {
     const user = userEvent.setup();
     const { container } = render(<App />);
+
+    expect(screen.queryByLabelText(/selector de propuestas de diseño/i)).not.toBeInTheDocument();
+    expect(screen.queryByRole('tab', { name: /2 libro/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole('tab', { name: /3 expedición/i })).not.toBeInTheDocument();
 
     expect(screen.getByRole('heading', { name: /¡mi primer añito!/i })).toBeInTheDocument();
     expect(screen.getByText(/jacobo pineda jaramillo/i)).toBeInTheDocument();
@@ -52,7 +44,6 @@ describe('App proposal experiences', () => {
 
     expect(screen.getAllByText(/jacobo pineda jaramillo/i).length).toBeGreaterThanOrEqual(1);
     expect(screen.getByText(/3:00 p\. m\./i)).toBeInTheDocument();
-    expect(screen.queryByText(/4:00 p\. m\./i)).not.toBeInTheDocument();
 
     const fullText = container.textContent ?? '';
     expect(fullText).not.toMatch(/\p{Extended_Pictographic}/u);
@@ -60,10 +51,5 @@ describe('App proposal experiences', () => {
     expect(fullTextLower).not.toContain('regalo');
     expect(fullTextLower).not.toContain('lluvia de sobres');
     expect(fullTextLower).not.toContain('obsequio');
-  });
-
-  it('shows proposal picker for switching designs', () => {
-    render(<App />);
-    expect(screen.getByLabelText(/selector de propuestas de diseño/i)).toBeInTheDocument();
   });
 });

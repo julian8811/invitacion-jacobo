@@ -14,22 +14,22 @@ export function PassportRsvp({ config, isMuted }: PassportRsvpProps) {
   const mascot = REALISTIC_ANIMALS[1];
 
   return (
-    <section id="rsvp" aria-labelledby="safari-rsvp-heading" className="px-4 py-8 pb-28">
-      <div className="passport-card relative mx-auto max-w-3xl overflow-hidden rounded-[2rem] p-6 sm:p-8">
-        <div className="flex flex-col gap-6 md:flex-row md:items-start">
+    <section id="rsvp" aria-labelledby="safari-rsvp-heading" className="w-full px-3 py-6 pb-28 sm:px-4">
+      <div className="passport-card relative mx-auto w-full max-w-5xl overflow-hidden rounded-[1.75rem] p-5 sm:p-7">
+        <div className="flex w-full flex-col gap-6 md:flex-row md:items-start">
           <div className="mx-auto w-40 shrink-0 text-center md:mx-0">
-            <div className="mx-auto h-36 w-36 overflow-hidden rounded-full border-4 border-[#D98A2B] bg-[#F5EEDB] shadow-lg">
+            <div className="mx-auto flex h-36 w-36 items-end justify-center overflow-hidden rounded-full border-4 border-[#D98A2B] bg-[#F5EEDB] shadow-lg">
               <img
                 src={mascot.src}
                 alt={mascot.alt}
-                className="h-full w-full object-cover"
+                className="h-[92%] w-auto object-contain"
               />
             </div>
-            <p className="font-hand mt-2 text-lg text-[#1B4332]">¡Te esperamos, explorador!</p>
+            <p className="font-hand mt-2 text-lg text-[#FCE085]">¡Te esperamos, explorador!</p>
             <motion.div
               aria-hidden="true"
-              className="passport-stamp mx-auto mt-3 flex h-20 w-20 items-center justify-center rounded-full border-4 border-dashed border-[#B91C1C]/70 text-center text-[10px] font-extrabold tracking-wide text-[#B91C1C] uppercase"
-              animate={stamped ? { scale: [1.4, 1], opacity: [0, 1], rotate: -12 } : { opacity: 0.35 }}
+              className="passport-stamp mx-auto mt-3 flex h-20 w-20 items-center justify-center rounded-full border-4 border-dashed border-[#FCE085]/70 text-center text-[10px] font-extrabold tracking-wide text-[#FCE085] uppercase"
+              animate={stamped ? { scale: [1.4, 1], opacity: [0, 1], rotate: -12 } : { opacity: 0.45 }}
               transition={{ duration: 0.35 }}
             >
               Confirmado
@@ -38,7 +38,7 @@ export function PassportRsvp({ config, isMuted }: PassportRsvpProps) {
             </motion.div>
           </div>
 
-          <div className="min-w-0 flex-1 rounded-[1.75rem] bg-[#FFFDF6] p-4 text-[#3D240F] shadow-inner sm:p-5">
+          <div className="min-w-0 w-full flex-1 rounded-[1.5rem] bg-[#FFFDF6] p-4 text-[#3D240F] shadow-inner sm:p-5">
             <SharedRsvpForm
               config={config}
               isMuted={isMuted}

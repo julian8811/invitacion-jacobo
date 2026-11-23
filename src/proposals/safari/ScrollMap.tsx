@@ -40,8 +40,8 @@ export function ScrollMap({ config }: ScrollMapProps) {
   };
 
   return (
-    <section aria-labelledby="safari-location-heading" className="px-4 py-8" ref={ref}>
-      <div className="mx-auto max-w-3xl">
+    <section aria-labelledby="safari-location-heading" className="w-full px-3 py-6 sm:px-4" ref={ref}>
+      <div className="mx-auto w-full max-w-5xl">
         <p className="font-hand text-xl text-[#1B4332]">Pergamino de la expedición</p>
         <h2
           id="safari-location-heading"
@@ -51,12 +51,12 @@ export function ScrollMap({ config }: ScrollMapProps) {
         </h2>
 
         <div
-          className={`scroll-parchment mt-4 overflow-hidden rounded-[1.75rem] border-2 border-[#8B6136] transition-all duration-700 ${
-            unrolled ? 'max-h-[920px] opacity-100' : 'max-h-24 opacity-80'
+          className={`scroll-parchment mt-4 w-full overflow-hidden rounded-[1.75rem] border-2 border-[#8B6136] transition-all duration-700 ${
+            unrolled ? 'max-h-[960px] opacity-100' : 'max-h-24 opacity-80'
           }`}
         >
-          <div className="bg-[linear-gradient(180deg,#f7e7c4_0%,#efd7a6_100%)] p-5 sm:p-7">
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+          <div className="w-full bg-[linear-gradient(180deg,#f7e7c4_0%,#efd7a6_100%)] p-5 sm:p-7">
+            <div className="flex w-full flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
               <p className="flex items-start gap-1.5 text-sm font-bold text-[#1B4332]">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[#D98A2B]" aria-hidden="true" />
                 <span>
@@ -83,7 +83,7 @@ export function ScrollMap({ config }: ScrollMapProps) {
             </div>
 
             <div
-              className={`mt-4 overflow-hidden rounded-2xl border-[3px] border-[#8B6136]/45 bg-[#EAE4D7] transition-all duration-700 ${
+              className={`mt-4 w-full overflow-hidden rounded-2xl border-[3px] border-[#8B6136]/45 bg-[#EAE4D7] transition-all duration-700 ${
                 unrolled ? 'opacity-100' : 'opacity-0'
               }`}
             >
@@ -96,12 +96,12 @@ export function ScrollMap({ config }: ScrollMapProps) {
               />
             </div>
 
-            <div className="mt-4 grid gap-3 sm:grid-cols-2">
+            <div className="mt-4 grid w-full gap-3 sm:grid-cols-2">
               <a
                 href={config.googleMapsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 rounded-2xl border-b-4 border-[#0E271D] bg-[#1B4332] px-4 py-3 text-sm font-bold text-white"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-2xl border-b-4 border-[#0E271D] bg-[#1B4332] px-4 py-3 text-sm font-bold text-white"
               >
                 <MapPin className="h-4 w-4 text-[#FCE085]" aria-hidden="true" />
                 <span>Abrir en Google Maps</span>
@@ -111,7 +111,7 @@ export function ScrollMap({ config }: ScrollMapProps) {
                 href={config.wazeUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 rounded-2xl border-2 border-[#2168B0]/45 border-b-4 bg-[#E5F2FC] px-4 py-3 text-sm font-bold text-[#154373]"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-2xl border-2 border-[#2168B0]/45 border-b-4 bg-[#E5F2FC] px-4 py-3 text-sm font-bold text-[#154373]"
               >
                 <Navigation className="h-4 w-4" aria-hidden="true" />
                 <span>Ir con Waze</span>

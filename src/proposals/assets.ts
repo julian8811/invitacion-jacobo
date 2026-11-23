@@ -1,48 +1,41 @@
-export type RealisticAnimalId = 'lion' | 'elephant' | 'giraffe' | 'monkey' | 'zebra';
+export type RealisticAnimalId = 'lion' | 'elephant' | 'giraffe' | 'monkey';
 
 export interface RealisticAnimalAsset {
   readonly id: RealisticAnimalId;
   readonly label: string;
   readonly src: string;
   readonly alt: string;
-  readonly sound: 'roar' | 'trumpet' | 'chew' | 'chatter' | 'snort';
+  readonly sound: 'roar' | 'trumpet' | 'chew' | 'chatter';
 }
 
 export const REALISTIC_ANIMALS: readonly RealisticAnimalAsset[] = [
   {
     id: 'lion',
     label: 'Leoncito',
-    src: '/images/realistic/lion-cub.jpg',
-    alt: 'Cachorro de león realista mirando de frente',
+    src: '/images/realistic/lion-cub.png',
+    alt: 'Cachorro de león realista con fondo transparente',
     sound: 'roar',
   },
   {
     id: 'elephant',
     label: 'Elefantito',
-    src: '/images/realistic/elephant-calf.jpg',
-    alt: 'Cría de elefante realista con trompa curvada',
+    src: '/images/realistic/elephant-calf.png',
+    alt: 'Cría de elefante realista con fondo transparente',
     sound: 'trumpet',
   },
   {
     id: 'giraffe',
     label: 'Jirafita',
-    src: '/images/realistic/giraffe-calf.jpg',
-    alt: 'Cría de jirafa realista de pie',
+    src: '/images/realistic/giraffe-calf.png',
+    alt: 'Cría de jirafa realista con fondo transparente',
     sound: 'chew',
   },
   {
     id: 'monkey',
     label: 'Monito',
-    src: '/images/realistic/monkey-infant.jpg',
-    alt: 'Bebé mono realista sentado con expresión curiosa',
+    src: '/images/realistic/monkey-infant.png',
+    alt: 'Bebé mono realista con fondo transparente',
     sound: 'chatter',
-  },
-  {
-    id: 'zebra',
-    label: 'Cebrita',
-    src: '/images/realistic/zebra-foal.jpg',
-    alt: 'Potro de cebra realista de pie',
-    sound: 'snort',
   },
 ] as const;
 

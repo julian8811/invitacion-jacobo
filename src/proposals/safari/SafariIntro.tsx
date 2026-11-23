@@ -55,8 +55,8 @@ export function SafariIntro({ config, onOpen }: SafariIntroProps) {
             isOpening ? 'translate-y-[-8px] scale-[1.02]' : ''
           }`}
         >
-          <div className="mx-auto mb-3 h-32 w-32 overflow-hidden rounded-full border-4 border-[#1B4332]/20 shadow-lg sm:h-36 sm:w-36">
-            <img src={mascot.src} alt={mascot.alt} className="h-full w-full object-cover" />
+          <div className="mx-auto mb-3 flex h-32 w-32 items-end justify-center overflow-hidden rounded-full border-4 border-[#1B4332]/20 bg-[#F5EEDB] shadow-lg sm:h-36 sm:w-36">
+            <img src={mascot.src} alt={mascot.alt} className="h-[92%] w-auto object-contain" />
           </div>
           <h1 className="font-display text-3xl font-extrabold text-[#4E2E14] sm:text-4xl">
             {config.eventTitle}
