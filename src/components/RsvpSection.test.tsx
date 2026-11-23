@@ -32,6 +32,27 @@ describe('RsvpSection', () => {
     expect(container.textContent ?? '').not.toMatch(/\p{Extended_Pictographic}/u);
   });
 
+  it('purges any stale saved RSVP from localStorage on mount and always renders the empty deployed form', () => {
+    window.localStorage.setItem(
+      RSVP_STORAGE_KEY,
+      JSON.stringify({
+        guestName: 'Respuesta Anterior',
+        attending: true,
+        adults: 2,
+        children: 1,
+        message: 'Mensaje viejo',
+        submittedAt: '2026-11-22T00:00:00.000Z',
+      }),
+    );
+
+    render(<RsvpSection config={EVENT_CONFIG} />);
+
+    expect(window.localStorage.getItem(RSVP_STORAGE_KEY)).toBeNull();
+    expect(screen.queryByText(/¡confirmación guardada!/i)).not.toBeInTheDocument();
+    expect(screen.getByLabelText(/nombre o familia/i)).toHaveValue('');
+    expect(screen.getByRole('button', { name: /confirmar por whatsapp/i })).toBeInTheDocument();
+  });
+
   it('shows a validation error when submitting an empty guest name', async () => {
     const user = userEvent.setup();
     render(<RsvpSection config={EVENT_CONFIG} />);
@@ -43,7 +64,7 @@ describe('RsvpSection', () => {
     expect(window.open).not.toHaveBeenCalled();
   });
 
-  it('saves attending RSVP, opens WhatsApp directly, renders confirmed pass, and restores across mounts', async () => {
+  it('opens WhatsApp with rich message on submit, does not persist to localStorage, resets and keeps full form deployed', async () => {
     const user = userEvent.setup();
     const { unmount } = render(<RsvpSection config={EVENT_CONFIG} />);
 
@@ -60,10 +81,16 @@ describe('RsvpSection', () => {
     expect(target).toBe('_blank');
     expect(features).toBe('noopener,noreferrer');
 
-    expect(screen.getByText(/¡confirmación guardada!/i)).toBeInTheDocument();
-    expect(screen.getByText(/familia martínez/i)).toBeInTheDocument();
+    // Never persists in localStorage
+    expect(window.localStorage.getItem(RSVP_STORAGE_KEY)).toBeNull();
 
-    const waLink = screen.getByRole('link', { name: /enviar confirmación por whatsapp/i });
+    // Full form remains visible and reset cleanly for next guest/response
+    expect(screen.getByLabelText(/nombre o familia/i)).toHaveValue('');
+    expect(screen.getByLabelText(/mensaje para jacobo/i)).toHaveValue('');
+    expect(screen.getByRole('button', { name: /confirmar por whatsapp/i })).toBeInTheDocument();
+
+    // Non-blocking fallback banner allows opening WhatsApp again or copying without hiding the form
+    const waLink = screen.getByRole('link', { name: /abrir whatsapp de nuevo/i });
     const href = waLink.getAttribute('href') ?? '';
     expect(href.startsWith('https://wa.me/573005944356?text=')).toBe(true);
     const decoded = decodeURIComponent(href.split('?text=')[1]);
@@ -73,11 +100,10 @@ describe('RsvpSection', () => {
     expect(decoded).toContain('¡Feliz primer añito Jacobo!');
     expect(decoded).not.toMatch(/\p{Extended_Pictographic}/u);
 
+    // Remount starts completely clean without remembering previous submission
     unmount();
     render(<RsvpSection config={EVENT_CONFIG} />);
-
-    expect(screen.getByText(/¡confirmación guardada!/i)).toBeInTheDocument();
-    await user.click(screen.getByRole('button', { name: /editar confirmación/i }));
-    expect(screen.getByLabelText(/nombre o familia/i)).toHaveValue('Familia Martínez');
+    expect(screen.getByLabelText(/nombre o familia/i)).toHaveValue('');
+    expect(screen.queryByRole('link', { name: /abrir whatsapp de nuevo/i })).not.toBeInTheDocument();
   });
 });
