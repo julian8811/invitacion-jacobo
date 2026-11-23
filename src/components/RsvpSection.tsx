@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import { Check, CheckCircle2, Copy, Edit3, MessageCircle, Minus, Plus, Send, Users } from 'lucide-react';
 import type { EventConfig } from '../config/event';
-import { PROPOSAL_BY_ID } from '../proposals/themes';
+import { EXPLORER_THEME } from '../proposals/themes';
 import type { ProposalTheme } from '../proposals/types';
 import { copyToClipboard } from '../utils/clipboard';
 import { fireSafeConfetti } from '../utils/confetti';
@@ -36,7 +36,7 @@ const DEFAULT_FORM_VALUES: RsvpFormValues = {
 
 export function RsvpSection({
   config,
-  theme = PROPOSAL_BY_ID.explorador,
+  theme = EXPLORER_THEME,
   isMuted = false,
 }: RsvpSectionProps) {
   const [savedRecord, setSavedRecord] = useState<RsvpRecord | null>(() => loadSavedRsvp());
@@ -133,33 +133,12 @@ export function RsvpSection({
     }));
   };
 
-  const cardSurface =
-    theme.id === 'selva-viva'
-      ? 'selva-treehouse-card'
-      : theme.id === 'campamento'
-        ? 'camp-parchment-card'
-        : 'explorer-journal';
-
-  const mascotRing =
-    theme.id === 'selva-viva'
-      ? 'border-4 border-[#2168B0] bg-[#EAF7FF]'
-      : theme.id === 'campamento'
-        ? 'border-4 border-[#D7A645] bg-[#14362B]'
-        : 'border-4 border-[#D98A2B] bg-[#F5EEDB]';
-
-  const activeToggleClass =
-    theme.id === 'selva-viva'
-      ? 'border-[#2168B0] bg-[#2168B0] text-white shadow'
-      : theme.id === 'campamento'
-        ? 'border-[#173E31] bg-[#173E31] text-[#F6BD3A] shadow'
-        : 'border-[#1B4332] bg-[#1B4332] text-white shadow';
-
   return (
     <section id="rsvp" aria-labelledby="rsvp-heading" className="px-4 py-6">
-      <div className={`${cardSurface} mx-auto max-w-3xl overflow-hidden rounded-[2.25rem] p-6 sm:p-8`}>
+      <div className="explorer-journal mx-auto max-w-3xl overflow-hidden rounded-[2.25rem] p-6 sm:p-8">
         <div className="flex flex-col items-center gap-6 md:flex-row md:items-start">
           <div className="w-40 shrink-0 text-center md:w-44">
-            <div className={`mx-auto h-40 w-40 overflow-hidden rounded-full shadow-lg ${mascotRing}`}>
+            <div className="mx-auto h-40 w-40 overflow-hidden rounded-full border-4 border-[#D98A2B] bg-[#F5EEDB] shadow-lg">
               <img
                 src={theme.assets.rsvpMascot}
                 alt={theme.assets.mascotAlt}
@@ -170,27 +149,8 @@ export function RsvpSection({
           </div>
 
           <div className="min-w-0 w-full flex-1">
-            <p
-              className={`font-hand text-xl ${
-                theme.id === 'selva-viva'
-                  ? 'text-[#2168B0]'
-                  : theme.id === 'campamento'
-                    ? 'text-[#8B5223]'
-                    : 'text-[#B4691E]'
-              }`}
-            >
-              {theme.copy.rsvpEyebrow}
-            </p>
-            <h2
-              id="rsvp-heading"
-              className={`font-display text-2xl font-bold sm:text-3xl ${
-                theme.id === 'selva-viva'
-                  ? 'text-[#1E7E45]'
-                  : theme.id === 'campamento'
-                    ? 'text-[#112A20]'
-                    : 'text-[#4E2E14]'
-              }`}
-            >
+            <p className="font-hand text-xl text-[#B4691E]">{theme.copy.rsvpEyebrow}</p>
+            <h2 id="rsvp-heading" className="font-display text-2xl font-bold text-[#4E2E14] sm:text-3xl">
               {config.rsvpHeading}
             </h2>
             <p className="mt-1 text-sm font-semibold text-[#3D240F]/85">
@@ -300,7 +260,7 @@ export function RsvpSection({
                       onClick={() => setFormValues((prev) => ({ ...prev, attending: true }))}
                       className={`cursor-pointer rounded-2xl border-2 px-3 py-2.5 text-xs font-bold transition sm:text-sm ${
                         formValues.attending
-                          ? activeToggleClass
+                          ? 'border-[#1B4332] bg-[#1B4332] text-white shadow'
                           : 'border-[#8B6136]/35 bg-white text-[#3D240F] hover:bg-[#FAF3DF]'
                       }`}
                     >

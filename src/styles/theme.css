@@ -6,18 +6,6 @@
   --explorer-cobalt: #235b8c;
   --explorer-ochre: #e09f24;
   --explorer-wood: #6f4220;
-
-  --selva-sky: #ddf2ff;
-  --selva-meadow: #ecf9e4;
-  --selva-emerald: #1e7e45;
-  --selva-royal: #2168b0;
-  --selva-turquoise: #0e8fa3;
-  --selva-mango: #f5a623;
-
-  --camp-pine: #0f2e24;
-  --camp-canopy: #173e31;
-  --camp-gold: #f6bd3a;
-  --camp-parchment: #fcf6e8;
 }
 
 html {
@@ -37,19 +25,10 @@ body {
   font-family: 'Baloo 2', 'Fredoka', system-ui, sans-serif;
 }
 
-.font-fredoka {
-  font-family: 'Fredoka', 'Baloo 2', system-ui, sans-serif;
-}
-
-.font-nunito {
-  font-family: 'Nunito', 'Quicksand', system-ui, sans-serif;
-}
-
 .font-hand {
   font-family: 'Patrick Hand', 'Quicksand', cursive;
 }
 
-/* Proposal 1: Pequeño Explorador (Expedition Field Journal) */
 .theme-explorador {
   background-color: #f5eedb;
   background-image:
@@ -92,59 +71,6 @@ body {
   box-shadow: 0 6px 14px rgba(27, 67, 50, 0.08);
 }
 
-/* Proposal 2: Selva Viva (Sunlit Boy Treehouse & Vibrant Canopy) */
-.theme-selva-viva {
-  background: linear-gradient(180deg, #cdeaff 0%, #e4f5ea 36%, #eef8e2 76%, #e1f3da 100%);
-  background-attachment: fixed;
-  color: #163322;
-}
-
-.selva-treehouse-card {
-  background: linear-gradient(180deg, #ffffff 0%, #f4fbf0 100%);
-  border: 3px solid #6dbb79;
-  box-shadow:
-    0 18px 36px rgba(33, 104, 176, 0.14),
-    inset 0 3px 0 rgba(255, 255, 255, 1);
-}
-
-.selva-bamboo-frame {
-  border: 4px solid #7c4a21;
-  box-shadow:
-    0 18px 36px rgba(22, 51, 34, 0.22),
-    0 0 0 4px #4da866;
-}
-
-/* Proposal 3: Campamento en la Selva (Twilight Fireflies & Lanterns) */
-.theme-campamento {
-  background-color: #0f2e24;
-  background-image:
-    radial-gradient(circle at 22% 12%, rgba(246, 189, 58, 0.2) 0%, transparent 34%),
-    radial-gradient(circle at 82% 20%, rgba(43, 108, 176, 0.22) 0%, transparent 38%),
-    radial-gradient(circle at 50% 65%, rgba(45, 138, 104, 0.24) 0%, transparent 48%),
-    radial-gradient(rgba(251, 225, 146, 0.18) 1.2px, transparent 1.2px),
-    linear-gradient(180deg, #0d261e 0%, #14372b 52%, #0e2922 100%);
-  background-size: auto, auto, auto, 38px 38px, auto;
-  color: #f9f3e2;
-}
-
-.camp-parchment-card {
-  background: linear-gradient(180deg, #fefaf0 0%, #f5ebd2 100%);
-  border: 2.5px solid #d7a645;
-  color: #173326;
-  box-shadow:
-    0 20px 44px rgba(5, 16, 12, 0.45),
-    0 0 24px rgba(246, 189, 58, 0.16),
-    inset 0 2px 0 rgba(255, 255, 255, 0.9);
-}
-
-.camp-lantern-frame {
-  border: 3.5px solid #d7a645;
-  box-shadow:
-    0 22px 46px rgba(5, 16, 12, 0.55),
-    0 0 28px rgba(246, 189, 58, 0.2);
-}
-
-/* Shared tactile storybook utilities */
 .stitched-panel {
   border: 2px dashed rgba(111, 66, 32, 0.36);
   background: rgba(255, 252, 244, 0.88);
@@ -198,15 +124,6 @@ body {
   }
 }
 
-@keyframes cloudDrift {
-  0%, 100% {
-    transform: translateX(0px);
-  }
-  50% {
-    transform: translateX(12px);
-  }
-}
-
 @keyframes balloonFloat {
   0%, 100% {
     transform: translateY(0px) rotate(-2.5deg);
@@ -216,31 +133,12 @@ body {
   }
 }
 
-@keyframes fireflyPulse {
-  0%, 100% {
-    opacity: 0.35;
-    transform: scale(0.92);
-  }
-  50% {
-    opacity: 0.95;
-    transform: scale(1.12);
-  }
-}
-
 .animate-sway {
   animation: gentleSway 5.4s ease-in-out infinite;
 }
 
-.animate-cloud {
-  animation: cloudDrift 9s ease-in-out infinite;
-}
-
 .animate-balloon {
   animation: balloonFloat 4.8s ease-in-out infinite;
-}
-
-.animate-firefly {
-  animation: fireflyPulse 3.2s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -249,9 +147,7 @@ body {
   }
 
   .animate-sway,
-  .animate-cloud,
   .animate-balloon,
-  .animate-firefly,
   .envelope-flap,
   .envelope-letter-rise {
     animation: none !important;

@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { EVENT_CONFIG } from '../config/event';
 import { RSVP_STORAGE_KEY } from '../domain/rsvp';
-import { PROPOSAL_BY_ID } from '../proposals/themes';
+import { EXPLORER_THEME } from '../proposals/themes';
 import { RsvpSection } from './RsvpSection';
 
 vi.mock('canvas-confetti', () => ({
@@ -24,28 +24,12 @@ describe('RsvpSection', () => {
   });
 
   it('renders the boy-jungle explorer mascot and exact video CTA heading with zero emojis', () => {
-    const { container } = render(<RsvpSection config={EVENT_CONFIG} />);
+    const { container } = render(<RsvpSection config={EVENT_CONFIG} theme={EXPLORER_THEME} />);
 
     expect(screen.getByRole('heading', { name: EVENT_CONFIG.rsvpHeading })).toBeInTheDocument();
     const mascotImg = screen.getByAltText(/elefantito explorador/i);
     expect(mascotImg).toHaveAttribute('src', '/images/p1-explorer-badge.png');
     expect(container.textContent ?? '').not.toMatch(/\p{Extended_Pictographic}/u);
-  });
-
-  it('adapts the mascot illustration per boy-jungle proposal theme', () => {
-    const { rerender } = render(
-      <RsvpSection config={EVENT_CONFIG} theme={PROPOSAL_BY_ID['selva-viva']} />,
-    );
-    expect(screen.getByAltText(/leoncito sonriente/i)).toHaveAttribute(
-      'src',
-      '/images/p2-selva-viva-lion.png',
-    );
-
-    rerender(<RsvpSection config={EVENT_CONFIG} theme={PROPOSAL_BY_ID.campamento} />);
-    expect(screen.getByAltText(/monito sonriente/i)).toHaveAttribute(
-      'src',
-      '/images/p3-campamento-tent.png',
-    );
   });
 
   it('shows a validation error when submitting an empty guest name', async () => {

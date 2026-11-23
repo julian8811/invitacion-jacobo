@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { PROPOSAL_BY_ID } from '../proposals/themes';
+import { EXPLORER_THEME } from '../proposals/themes';
 import type { ProposalTheme } from '../proposals/types';
 import { fireSafeConfetti } from '../utils/confetti';
 import { playBalloonPopSound } from '../utils/soundEffects';
@@ -18,8 +18,8 @@ interface BalloonPosition {
 }
 
 const BALLOON_POSITIONS: readonly BalloonPosition[] = [
-  { id: 1, top: '76px', sideClass: 'left-1 sm:left-5 sm:top-[16%]', delay: '0s', mobileVisible: true },
-  { id: 2, top: '76px', sideClass: 'right-1 sm:right-5 sm:top-[22%]', delay: '0.6s', mobileVisible: true },
+  { id: 1, top: '14px', sideClass: 'left-1 sm:left-5 sm:top-[14%]', delay: '0s', mobileVisible: true },
+  { id: 2, top: '14px', sideClass: 'right-1 sm:right-5 sm:top-[20%]', delay: '0.6s', mobileVisible: true },
   { id: 3, top: '44%', sideClass: 'left-2 sm:left-6', delay: '1.1s', mobileVisible: false },
   { id: 4, top: '56%', sideClass: 'right-2 sm:right-6', delay: '1.7s', mobileVisible: false },
   { id: 5, top: '72%', sideClass: 'left-2 sm:left-5', delay: '0.9s', mobileVisible: false },
@@ -27,7 +27,7 @@ const BALLOON_POSITIONS: readonly BalloonPosition[] = [
 ];
 
 export function InteractiveBalloons({
-  theme = PROPOSAL_BY_ID.explorador,
+  theme = EXPLORER_THEME,
   isMuted = false,
 }: InteractiveBalloonsProps) {
   const [poppedIds, setPoppedIds] = useState<number[]>([]);
@@ -107,7 +107,6 @@ export function InteractiveBalloons({
         })}
       </div>
 
-      {/* Zero-emoji SVG mini-balloon counter badge */}
       <div className="fixed bottom-3 left-3 z-30 flex items-center gap-1.5 rounded-full border-2 border-[#8B6136]/45 bg-white/95 px-2.5 py-1.5 text-[11px] font-bold text-[#1B4332] shadow-md backdrop-blur sm:bottom-5 sm:left-5 sm:px-3 sm:text-xs">
         <svg viewBox="0 0 20 26" className="h-4 w-3.5 shrink-0" aria-hidden="true">
           <ellipse cx="10" cy="9.5" rx="7.5" ry="9" fill={primaryBalloonColor} />

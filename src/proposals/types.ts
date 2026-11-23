@@ -1,14 +1,6 @@
-export type ProposalId = 'explorador' | 'selva-viva' | 'campamento';
-
-export type StudioView = 'pagina' | 'tarjeta';
-
 export interface ProposalTheme {
-  readonly id: ProposalId;
-  readonly number: 1 | 2 | 3;
+  readonly id: 'explorador';
   readonly name: string;
-  readonly shortLabel: string;
-  readonly tagline: string;
-  readonly description: string;
   readonly assets: {
     readonly heroScene: string;
     readonly introMascot: string;
@@ -30,8 +22,4 @@ export interface ProposalTheme {
   };
   readonly confettiColors: readonly string[];
   readonly balloonColors: readonly string[];
-  readonly exportFiles: {
-    readonly pdf: string;
-    readonly jpg: string;
-  };
 }

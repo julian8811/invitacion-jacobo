@@ -3,7 +3,7 @@ import { CalendarPlus, Download } from 'lucide-react';
 import type { EventConfig } from '../config/event';
 import { buildGoogleCalendarUrl, buildIcsContent } from '../domain/calendar';
 import { getCountdownSnapshot, type CountdownSnapshot } from '../domain/countdown';
-import { PROPOSAL_BY_ID } from '../proposals/themes';
+import { EXPLORER_THEME } from '../proposals/themes';
 import type { ProposalTheme } from '../proposals/types';
 
 interface CountdownSectionProps {
@@ -15,30 +15,16 @@ function padUnit(value: number): string {
   return String(value).padStart(2, '0');
 }
 
-const BLOCK_STYLES_BY_THEME: Record<ProposalTheme['id'], readonly [string, string, string, string]> = {
-  explorador: [
-    'bg-[#1B4332] border-[#0E271D] text-[#FFFDF7] -rotate-1',
-    'bg-[#235B8C] border-[#153C5E] text-white rotate-1',
-    'bg-[#D98A2B] border-[#9E5E12] text-[#281809] -rotate-1',
-    'bg-[#6F4220] border-[#452710] text-[#FFFDF7] rotate-1',
-  ],
-  'selva-viva': [
-    'bg-[#2168B0] border-[#134275] text-white -rotate-1',
-    'bg-[#0E8FA3] border-[#085E6B] text-white rotate-1',
-    'bg-[#1E7E45] border-[#114D2A] text-white -rotate-1',
-    'bg-[#F5A623] border-[#B7770B] text-[#2B1B05] rotate-1',
-  ],
-  campamento: [
-    'bg-[#143D30] border-[#0B241C] text-[#F6BD3A] -rotate-1',
-    'bg-[#234B6E] border-[#153047] text-[#FBE192] rotate-1',
-    'bg-[#8B5223] border-[#593212] text-[#FDF7E6] -rotate-1',
-    'bg-[#F6BD3A] border-[#9F6F0D] text-[#112A20] rotate-1',
-  ],
-};
+const EXPLORER_BLOCK_STYLES = [
+  'bg-[#1B4332] border-[#0E271D] text-[#FFFDF7] -rotate-1',
+  'bg-[#235B8C] border-[#153C5E] text-white rotate-1',
+  'bg-[#D98A2B] border-[#9E5E12] text-[#281809] -rotate-1',
+  'bg-[#6F4220] border-[#452710] text-[#FFFDF7] rotate-1',
+] as const;
 
 export function CountdownSection({
   config,
-  theme = PROPOSAL_BY_ID.explorador,
+  theme = EXPLORER_THEME,
 }: CountdownSectionProps) {
   const [snapshot, setSnapshot] = useState<CountdownSnapshot>(() =>
     getCountdownSnapshot(config.startIso, config.endIso),
@@ -73,34 +59,11 @@ export function CountdownSection({
     { label: 'Segundos', value: padUnit(snapshot.seconds) },
   ];
 
-  const cardSurface =
-    theme.id === 'selva-viva'
-      ? 'selva-treehouse-card'
-      : theme.id === 'campamento'
-        ? 'camp-parchment-card'
-        : 'explorer-journal';
-
-  const cameoRing =
-    theme.id === 'selva-viva'
-      ? 'border-4 border-[#2168B0] bg-[#EAF7FF]'
-      : theme.id === 'campamento'
-        ? 'border-4 border-[#D7A645] bg-[#14362B]'
-        : 'cameo-circle';
-
-  const blockStyles = BLOCK_STYLES_BY_THEME[theme.id];
-
-  const primaryBtnClass =
-    theme.id === 'selva-viva'
-      ? 'border-b-4 border-[#134275] bg-[#2168B0] text-white hover:bg-[#1B5796]'
-      : theme.id === 'campamento'
-        ? 'border-b-4 border-[#0D261E] bg-[#173E31] text-[#F6BD3A] hover:bg-[#1E5040]'
-        : 'border-b-4 border-[#0E271D] bg-[#1B4332] text-white hover:bg-[#245842]';
-
   return (
     <section aria-labelledby="countdown-heading" className="px-4 py-6">
-      <div className={`${cardSurface} relative mx-auto max-w-3xl overflow-hidden rounded-[2.25rem] p-6 sm:p-8`}>
+      <div className="explorer-journal relative mx-auto max-w-3xl overflow-hidden rounded-[2.25rem] p-6 sm:p-8">
         <div className="flex flex-col items-center gap-6 sm:flex-row">
-          <div className={`h-36 w-36 shrink-0 overflow-hidden rounded-full shadow-lg sm:h-44 sm:w-44 ${cameoRing}`}>
+          <div className="cameo-circle h-36 w-36 shrink-0 overflow-hidden rounded-full shadow-lg sm:h-44 sm:w-44">
             <img
               src={theme.assets.introMascot}
               alt={theme.assets.mascotAlt}
@@ -109,27 +72,8 @@ export function CountdownSection({
           </div>
 
           <div className="min-w-0 w-full flex-1 text-center sm:text-left">
-            <p
-              className={`font-hand text-xl ${
-                theme.id === 'selva-viva'
-                  ? 'text-[#2168B0]'
-                  : theme.id === 'campamento'
-                    ? 'text-[#8B5223]'
-                    : 'text-[#1B4332]'
-              }`}
-            >
-              {theme.copy.countdownEyebrow}
-            </p>
-            <h2
-              id="countdown-heading"
-              className={`font-display text-2xl font-bold sm:text-3xl ${
-                theme.id === 'selva-viva'
-                  ? 'text-[#1E7E45]'
-                  : theme.id === 'campamento'
-                    ? 'text-[#112A20]'
-                    : 'text-[#4E2E14]'
-              }`}
-            >
+            <p className="font-hand text-xl text-[#1B4332]">{theme.copy.countdownEyebrow}</p>
+            <h2 id="countdown-heading" className="font-display text-2xl font-bold text-[#4E2E14] sm:text-3xl">
               {snapshot.phase === 'today'
                 ? '¡Hoy celebramos el primer añito de Jacobo!'
                 : snapshot.phase === 'past'
@@ -142,7 +86,7 @@ export function CountdownSection({
                 {units.map((unit, idx) => (
                   <div
                     key={unit.label}
-                    className={`toy-block flex flex-col items-center justify-center rounded-2xl px-1.5 py-2.5 sm:px-2 sm:py-3 ${blockStyles[idx]}`}
+                    className={`toy-block flex flex-col items-center justify-center rounded-2xl px-1.5 py-2.5 sm:px-2 sm:py-3 ${EXPLORER_BLOCK_STYLES[idx]}`}
                   >
                     <span className="font-display text-xl font-extrabold tabular-nums sm:text-3xl">
                       {unit.value}
@@ -166,7 +110,7 @@ export function CountdownSection({
                 href={buildGoogleCalendarUrl(config)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`inline-flex items-center gap-2 rounded-2xl px-4 py-2.5 text-xs font-bold shadow transition sm:text-sm ${primaryBtnClass}`}
+                className="inline-flex items-center gap-2 rounded-2xl border-b-4 border-[#0E271D] bg-[#1B4332] px-4 py-2.5 text-xs font-bold text-white shadow transition hover:bg-[#245842] sm:text-sm"
               >
                 <CalendarPlus className="h-4 w-4 text-[#FCE085]" aria-hidden="true" />
                 <span>Agregar a Google Calendar</span>
