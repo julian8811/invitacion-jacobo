@@ -28,7 +28,7 @@ export interface EventConfig {
  * Intentionally excludes any gift or rain-of-envelopes metadata per user instruction.
  */
 export const EVENT_CONFIG: EventConfig = {
-  honoree: 'Jacobo Pineda',
+  honoree: 'Jacobo Pineda Jaramillo',
   eventTitle: '¡Mi Primer Añito!',
   subtitle: '¡Te invito a celebrarlo!',
   introHeadline: 'Tienes una invitación muy especial de Jacobo',

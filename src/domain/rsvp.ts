@@ -67,8 +67,11 @@ function formatGuestCountLabel(count: number, singular: string, plural: string):
 export function buildWhatsAppRsvpMessage(input: RsvpFormValues, config: EventConfig): string {
   const cleanName = input.guestName.trim();
   const cleanMessage = input.message.trim();
+  const divider = '\u2500'.repeat(22);
 
   if (input.attending) {
+    const totalGuests = input.adults + input.children;
+    const totalLabel = formatGuestCountLabel(totalGuests, 'persona', 'personas');
     const adultsLabel = formatGuestCountLabel(input.adults, 'adulto', 'adultos');
     const childrenPart =
       input.children > 0
@@ -76,29 +79,52 @@ export function buildWhatsAppRsvpMessage(input: RsvpFormValues, config: EventCon
         : '';
 
     const lines = [
-      `Hola! Confirmo asistencia para ${config.eventTitle} de ${config.honoree}.`,
-      `- Invitado(s): ${cleanName}`,
-      `- Asistencia: Sí asistiremos (${adultsLabel}${childrenPart})`,
-      `- Fecha y hora: ${config.dateDisplay} a las ${config.timeDisplay}`,
-      `- Lugar: ${config.venueSpace}, ${config.venueName}`,
+      `*CONFIRMACIÓN DE ASISTENCIA*`,
+      `*${config.eventTitle} — ${config.honoree}*`,
+      divider,
+      '',
+      `*Invitado / Familia:* ${cleanName}`,
+      `*Estado:* Asistencia confirmada`,
+      `*Total de asistentes:* ${totalLabel} (${adultsLabel}${childrenPart})`,
+      '',
+      `*Detalles de la celebración:*`,
+      `Fecha: ${config.dateDisplay}`,
+      `Hora: ${config.timeDisplay}`,
+      `Lugar: ${config.venueSpace} · ${config.venueName}`,
+      `Dirección: ${config.address} (${config.neighborhood})`,
     ];
 
     if (cleanMessage) {
-      lines.push(`- Mensaje para Jacobo: "${cleanMessage}"`);
+      lines.push('', `*Mensaje para Jacobo:*`, `_"${cleanMessage}"_`);
     }
+
+    lines.push(
+      '',
+      divider,
+      `_Confirmado desde la invitación digital de ${config.honoree}._`,
+    );
 
     return lines.join('\n');
   }
 
   const lines = [
-    `Hola! Respondo a la invitación de ${config.eventTitle} de ${config.honoree}.`,
-    `- Invitado(s): ${cleanName}`,
-    `- Asistencia: No podremos asistir en esta ocasión`,
+    `*RESPUESTA A LA INVITACIÓN*`,
+    `*${config.eventTitle} — ${config.honoree}*`,
+    divider,
+    '',
+    `*Invitado / Familia:* ${cleanName}`,
+    `*Estado:* No podremos asistir en esta ocasión`,
   ];
 
   if (cleanMessage) {
-    lines.push(`- Mensaje para Jacobo: "${cleanMessage}"`);
+    lines.push('', `*Mensaje para Jacobo:*`, `_"${cleanMessage}"_`);
   }
+
+  lines.push(
+    '',
+    divider,
+    `_Enviado desde la invitación digital de ${config.honoree}._`,
+  );
 
   return lines.join('\n');
 }

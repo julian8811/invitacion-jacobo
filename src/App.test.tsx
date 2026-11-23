@@ -16,11 +16,12 @@ describe('App storybook invitation flow', () => {
     cleanup();
   });
 
-  it('displays 3:00 p. m., removes safari friends and on-page share card, keeps cake game, and has zero emojis/gifts', async () => {
+  it('displays Jacobo Pineda Jaramillo, 3:00 p. m., removes cake/friends/card sections, and has zero emojis/gifts', async () => {
     const user = userEvent.setup();
     const { container } = render(<App />);
 
     expect(screen.getByRole('heading', { name: /¡mi primer añito!/i })).toBeInTheDocument();
+    expect(screen.getByText(/jacobo pineda jaramillo/i)).toBeInTheDocument();
     expect(screen.getByText(/3:00 p\. m\./i)).toBeInTheDocument();
     expect(screen.queryByText(/4:00 p\. m\./i)).not.toBeInTheDocument();
     expect(container.textContent ?? '').not.toMatch(/\p{Extended_Pictographic}/u);
@@ -33,17 +34,14 @@ describe('App storybook invitation flow', () => {
       await screen.findByRole('heading', { name: /¡confirma tu asistencia aquí abajo!/i }),
     ).toBeInTheDocument();
 
-    // Confirm 3:00 p. m. and absence of removed sections
+    // Confirm full name, 3:00 p. m., and absence of all removed sections
+    expect(screen.getAllByText(/jacobo pineda jaramillo/i).length).toBeGreaterThanOrEqual(1);
     expect(screen.getByText(/3:00 p\. m\./i)).toBeInTheDocument();
     expect(screen.queryByText(/4:00 p\. m\./i)).not.toBeInTheDocument();
     expect(screen.queryByText(/toca a los amigos de jacobo/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/comparte esta tarjeta por whatsapp/i)).not.toBeInTheDocument();
-
-    // Keep interactive Birthday Cake candle mini-game
-    await user.click(screen.getByRole('button', { name: /^soplar la velita$/i }));
-    expect(screen.getByText(/¡deseo pedido!/i)).toBeInTheDocument();
-    await user.click(screen.getByRole('button', { name: /volver a encender/i }));
-    expect(screen.getByRole('button', { name: /^soplar la velita$/i })).toBeInTheDocument();
+    expect(screen.queryByText(/pide un deseo por jacobo/i)).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /soplar la velita/i })).not.toBeInTheDocument();
 
     // Strictly verify ZERO emojis and ZERO gift/registry words across full page
     const fullText = container.textContent ?? '';

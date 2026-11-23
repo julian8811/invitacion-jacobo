@@ -70,7 +70,7 @@ describe('validateRsvpInput', () => {
 });
 
 describe('WhatsApp RSVP message and URL builders', () => {
-  it('builds a structured Spanish message and wa.me URL for attending guests', () => {
+  it('builds a richly formatted Spanish WhatsApp message and wa.me URL for attending guests', () => {
     const values = {
       guestName: 'Familia Martínez',
       attending: true,
@@ -81,11 +81,14 @@ describe('WhatsApp RSVP message and URL builders', () => {
 
     const text = buildWhatsAppRsvpMessage(values, EVENT_CONFIG);
     expect(text).not.toMatch(/\p{Extended_Pictographic}/u);
-    expect(text).toContain('Familia Martínez');
-    expect(text).toContain('2 adultos');
-    expect(text).toContain('1 niño');
-    expect(text).toContain('¡Feliz primer añito Jacobo!');
+    expect(text).toContain('*CONFIRMACIÓN DE ASISTENCIA*');
+    expect(text).toContain('Jacobo Pineda Jaramillo');
+    expect(text).toContain('*Invitado / Familia:* Familia Martínez');
+    expect(text).toContain('*Total de asistentes:* 3 personas (2 adultos y 1 niño)');
     expect(text).toContain('3:00 p. m.');
+    expect(text).toContain('Sector Machado');
+    expect(text).toContain('_"¡Feliz primer añito Jacobo!"_');
+    expect(text.toLowerCase()).not.toContain('regalo');
 
     const url = buildWhatsAppRsvpUrl(values, EVENT_CONFIG);
     expect(url.startsWith('https://wa.me/573005944356?text=')).toBe(true);
@@ -93,7 +96,7 @@ describe('WhatsApp RSVP message and URL builders', () => {
     expect(decoded).toBe(text);
   });
 
-  it('builds a warm declined RSVP message without guest counts or emojis', () => {
+  it('builds a richly formatted declined RSVP message without guest counts or emojis', () => {
     const text = buildWhatsAppRsvpMessage(
       {
         guestName: 'Laura Ríos',
@@ -105,9 +108,12 @@ describe('WhatsApp RSVP message and URL builders', () => {
       EVENT_CONFIG,
     );
     expect(text).not.toMatch(/\p{Extended_Pictographic}/u);
+    expect(text).toContain('*RESPUESTA A LA INVITACIÓN*');
+    expect(text).toContain('Jacobo Pineda Jaramillo');
     expect(text).toContain('Laura Ríos');
-    expect(text).toContain('No podremos asistir');
+    expect(text).toContain('No podremos asistir en esta ocasión');
     expect(text).not.toContain('adulto');
+    expect(text).not.toContain('Total de asistentes');
   });
 });
 

@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { BirthdayCakeGame } from './components/BirthdayCakeGame';
 import { CountdownSection } from './components/CountdownSection';
 import { EnvelopeIntro } from './components/EnvelopeIntro';
 import { FloatingToolbar } from './components/FloatingToolbar';
@@ -50,11 +49,6 @@ export function App() {
           replaySignal={replaySignal}
           onToggleMute={() => setIsMuted((prev) => !prev)}
         />
-
-        {/* Soft rolling meadow band for birthday candle interactive moment */}
-        <div className="relative bg-gradient-to-b from-transparent via-[#EAF2E2]/55 to-transparent py-2">
-          <BirthdayCakeGame isMuted={isMuted} />
-        </div>
 
         <CountdownSection config={EVENT_CONFIG} />
         <LocationSection config={EVENT_CONFIG} />

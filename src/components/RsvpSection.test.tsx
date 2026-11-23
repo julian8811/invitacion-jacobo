@@ -66,9 +66,9 @@ describe('RsvpSection', () => {
     const href = waLink.getAttribute('href') ?? '';
     expect(href.startsWith('https://wa.me/573005944356?text=')).toBe(true);
     const decoded = decodeURIComponent(href.split('?text=')[1]);
+    expect(decoded).toContain('Jacobo Pineda Jaramillo');
     expect(decoded).toContain('Familia Martínez');
-    expect(decoded).toContain('2 adultos');
-    expect(decoded).toContain('1 niño');
+    expect(decoded).toContain('3 personas (2 adultos y 1 niño)');
     expect(decoded).toContain('¡Feliz primer añito Jacobo!');
     expect(decoded).not.toMatch(/\p{Extended_Pictographic}/u);
 

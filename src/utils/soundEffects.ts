@@ -74,18 +74,3 @@ export function playBalloonPopSound(isMuted: boolean): void {
     0.09,
   );
 }
-
-export function playCandleCelebrationChime(isMuted: boolean): void {
-  if (isMuted) {
-    return;
-  }
-  // Gentle 6-note celebratory music-box arpeggio
-  playToneSequence([
-    { freq: 523.25, duration: 0.15, delay: 0 },
-    { freq: 523.25, duration: 0.15, delay: 0.16 },
-    { freq: 587.33, duration: 0.24, delay: 0.32 },
-    { freq: 523.25, duration: 0.24, delay: 0.56 },
-    { freq: 698.46, duration: 0.24, delay: 0.8 },
-    { freq: 659.25, duration: 0.42, delay: 1.04 },
-  ]);
-}

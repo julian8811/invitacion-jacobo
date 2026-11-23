@@ -39,7 +39,7 @@ export function CountdownSection({ config }: CountdownSectionProps) {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = 'primer-anito-jacobo-pineda.ics';
+    link.download = 'primer-anito-jacobo-pineda-jaramillo.ics';
     document.body.appendChild(link);
     link.click();
     link.remove();
