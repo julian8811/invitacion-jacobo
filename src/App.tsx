@@ -3,7 +3,9 @@ import { InvitationCardProposal } from './cards/InvitationCardProposal';
 import { EVENT_CONFIG } from './config/event';
 import { SafariExperience } from './proposals/safari';
 
-function readExportVariant(): 'whatsapp' | 'og' | null {
+type ExportVariant = 'whatsapp' | 'og' | 'pre';
+
+function readExportVariant(): ExportVariant | null {
   if (typeof window === 'undefined') {
     return null;
   }
@@ -11,7 +13,11 @@ function readExportVariant(): 'whatsapp' | 'og' | null {
   if (!params.has('exportCard')) {
     return null;
   }
-  return params.get('exportCard') === 'og' ? 'og' : 'whatsapp';
+  const value = params.get('exportCard');
+  if (value === 'og' || value === 'pre') {
+    return value;
+  }
+  return 'whatsapp';
 }
 
 export function App() {

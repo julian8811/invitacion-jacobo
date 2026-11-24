@@ -9,6 +9,8 @@ const DESKTOP = process.env.DESKTOP_DIR ?? 'C:\\Users\\ASUS\\OneDrive\\Desktop';
 const PUBLIC = join(process.cwd(), 'public');
 const WHATSAPP_JPG = join(PUBLIC, 'tarjeta-whatsapp-jacobo.jpg');
 const WHATSAPP_PDF = join(PUBLIC, 'tarjeta-whatsapp-jacobo.pdf');
+const PRE_JPG = join(PUBLIC, 'preinvitacion-jacobo.jpg');
+const PRE_PDF = join(PUBLIC, 'preinvitacion-jacobo.pdf');
 const OG_JPG = join(PUBLIC, 'og-cover.jpg');
 const MESSAGE_TXT = join(PUBLIC, 'mensaje-whatsapp-jacobo.txt');
 const LIVE_URL = 'https://invitacion-jacobo.vercel.app';
@@ -129,6 +131,33 @@ async function exportOgCover(browser) {
   await page.close();
 }
 
+async function exportPreInvitation(browser) {
+  const page = await browser.newPage({
+    viewport: { width: 1080, height: 1350 },
+    deviceScaleFactor: 1,
+  });
+  await page.goto(`${BASE}/?exportCard=pre`, { waitUntil: 'networkidle' });
+  await page.waitForSelector('a[aria-label="Abrir invitación de Jacobo"]', { timeout: 15000 });
+  await wait(400);
+
+  const card = page.locator('a[aria-label="Abrir invitación de Jacobo"]');
+  const fullBox = await card.boundingBox();
+  const href = await card.getAttribute('href');
+
+  await card.screenshot({ path: PRE_JPG, type: 'jpeg', quality: 92 });
+  await page.pdf({
+    path: PRE_PDF,
+    width: '1080px',
+    height: '1350px',
+    printBackground: true,
+    margin: { top: '0', right: '0', bottom: '0', left: '0' },
+  });
+  // Whole surface is one tap target.
+  await makeClickablePdf(PRE_PDF, [fullBox], href || LIVE_URL);
+  await page.close();
+  return { href, fullBox };
+}
+
 mkdirSync(PUBLIC, { recursive: true });
 writeFileSync(MESSAGE_TXT, `${WHATSAPP_MESSAGE}\n`, 'utf8');
 
@@ -136,10 +165,13 @@ const preview = await startPreview();
 const browser = await chromium.launch();
 try {
   const result = await exportWhatsappCard(browser);
+  const pre = await exportPreInvitation(browser);
   await exportOgCover(browser);
 
   copyFileSync(WHATSAPP_JPG, join(DESKTOP, 'tarjeta-whatsapp-jacobo.jpg'));
   copyFileSync(WHATSAPP_PDF, join(DESKTOP, 'tarjeta-whatsapp-jacobo.pdf'));
+  copyFileSync(PRE_JPG, join(DESKTOP, 'preinvitacion-jacobo.jpg'));
+  copyFileSync(PRE_PDF, join(DESKTOP, 'preinvitacion-jacobo.pdf'));
   copyFileSync(MESSAGE_TXT, join(DESKTOP, 'mensaje-whatsapp-jacobo.txt'));
 
   console.log(
@@ -147,11 +179,15 @@ try {
       {
         ok: true,
         href: result.href,
+        preHref: pre.href,
         ctaBox: result.ctaBox,
         qrBox: result.qrBox,
+        preBox: pre.fullBox,
         files: {
           jpg: WHATSAPP_JPG,
           pdf: WHATSAPP_PDF,
+          preJpg: PRE_JPG,
+          prePdf: PRE_PDF,
           og: OG_JPG,
           message: MESSAGE_TXT,
           desktop: DESKTOP,
