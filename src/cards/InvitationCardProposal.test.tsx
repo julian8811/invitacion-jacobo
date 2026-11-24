@@ -52,11 +52,14 @@ describe('InvitationCardProposal Safari WhatsApp card', () => {
     expect(container.textContent?.toLowerCase()).not.toContain('regalo');
   });
 
-  it('renders clickable pre-invitation that links to the live page', () => {
+  it('renders clickable birthday pre-invitation that links to the live page', () => {
     render(<InvitationCardProposal config={EVENT_CONFIG} variant="pre" />);
     const link = screen.getByRole('link', { name: /abrir invitación de jacobo/i });
     expect(link).toHaveAttribute('href', EVENT_CONFIG.liveUrl);
-    expect(screen.getByText(/toca para abrir la invitación/i)).toBeInTheDocument();
-    expect(screen.getByText(/preinvitación/i)).toBeInTheDocument();
+    expect(screen.getByText(/invitación de cumpleaños/i)).toBeInTheDocument();
+    expect(screen.getByText(/estás invitado a celebrar/i)).toBeInTheDocument();
+    expect(screen.getByText(/su primer cumpleaños/i)).toBeInTheDocument();
+    expect(screen.getByText(/abrir invitación/i)).toBeInTheDocument();
+    expect(screen.getByText(/Salón Social/i)).toBeInTheDocument();
   });
 });

@@ -7,6 +7,7 @@ import { PDFDocument, PDFName, PDFString } from 'pdf-lib';
 const BASE = process.env.EXPORT_URL ?? 'http://127.0.0.1:4173';
 const DESKTOP = process.env.DESKTOP_DIR ?? 'C:\\Users\\ASUS\\OneDrive\\Desktop';
 const PUBLIC = join(process.cwd(), 'public');
+const AUDIT = join(process.cwd(), 'audit-out');
 const WHATSAPP_JPG = join(PUBLIC, 'tarjeta-whatsapp-jacobo.jpg');
 const WHATSAPP_PDF = join(PUBLIC, 'tarjeta-whatsapp-jacobo.pdf');
 const PRE_JPG = join(PUBLIC, 'preinvitacion-jacobo.jpg');
@@ -47,46 +48,30 @@ async function startPreview() {
   return child;
 }
 
-function addUriLink(pdfPage, box, pageHeight, url) {
-  if (!box) {
-    return;
-  }
-  // Chromium PDF maps CSS pixels to PDF points at 72/96.
-  const pxToPt = 72 / 96;
-  const x = box.x * pxToPt;
-  const y = pageHeight - (box.y + box.height) * pxToPt;
-  const w = box.width * pxToPt;
-  const h = box.height * pxToPt;
+function addFullPageLink(pdfPage, url) {
+  const { width, height } = pdfPage.getSize();
   const ctx = pdfPage.doc.context;
-  const action = ctx.obj({
-    Type: 'Action',
-    S: 'URI',
-    URI: PDFString.of(url),
-  });
   const annot = ctx.obj({
     Type: 'Annot',
     Subtype: 'Link',
-    Rect: [x, y, x + w, y + h],
+    Rect: [0, 0, width, height],
     Border: [0, 0, 0],
-    C: [0.1, 0.26, 0.2],
-    A: action,
+    A: {
+      Type: 'Action',
+      S: 'URI',
+      URI: PDFString.of(url),
+    },
   });
-  const annotRef = ctx.register(annot);
-  const existing = pdfPage.node.lookup(PDFName.of('Annots'));
-  if (existing) {
-    existing.push(annotRef);
-  } else {
-    pdfPage.node.set(PDFName.of('Annots'), ctx.obj([annotRef]));
-  }
+  pdfPage.node.set(PDFName.of('Annots'), ctx.obj([ctx.register(annot)]));
 }
 
-async function makeClickablePdf(pdfPath, linkBoxes, url) {
-  const pdfDoc = await PDFDocument.load(readFileSync(pdfPath));
-  const pdfPage = pdfDoc.getPages()[0];
-  const { height } = pdfPage.getSize();
-  for (const box of linkBoxes) {
-    addUriLink(pdfPage, box, height, url);
-  }
+/** Build a WhatsApp-friendly PDF that looks exactly like the JPG and is fully clickable. */
+async function jpgToClickablePdf(jpgPath, pdfPath, url, widthPt, heightPt) {
+  const pdfDoc = await PDFDocument.create();
+  const page = pdfDoc.addPage([widthPt, heightPt]);
+  const image = await pdfDoc.embedJpg(readFileSync(jpgPath));
+  page.drawImage(image, { x: 0, y: 0, width: widthPt, height: heightPt });
+  addFullPageLink(page, url);
   writeFileSync(pdfPath, await pdfDoc.save());
 }
 
@@ -102,21 +87,11 @@ async function exportWhatsappCard(browser) {
   await wait(400);
 
   const card = page.locator('article[aria-label="Tarjeta de invitación Safari"]');
-  const ctaBox = await page.getByRole('link', { name: /abrir invitación interactiva/i }).boundingBox();
-  const qrBox = await page.getByRole('img', { name: /código qr/i }).boundingBox();
   const href = await page.getByRole('link', { name: /abrir invitación interactiva/i }).getAttribute('href');
-
-  await card.screenshot({ path: WHATSAPP_JPG, type: 'jpeg', quality: 92 });
-  await page.pdf({
-    path: WHATSAPP_PDF,
-    width: '1080px',
-    height: '1350px',
-    printBackground: true,
-    margin: { top: '0', right: '0', bottom: '0', left: '0' },
-  });
-  await makeClickablePdf(WHATSAPP_PDF, [ctaBox, qrBox], href || LIVE_URL);
+  await card.screenshot({ path: WHATSAPP_JPG, type: 'jpeg', quality: 94 });
+  await jpgToClickablePdf(WHATSAPP_JPG, WHATSAPP_PDF, href || LIVE_URL, 1080, 1350);
   await page.close();
-  return { href, ctaBox, qrBox };
+  return { href };
 }
 
 async function exportOgCover(browser) {
@@ -138,27 +113,43 @@ async function exportPreInvitation(browser) {
   });
   await page.goto(`${BASE}/?exportCard=pre`, { waitUntil: 'networkidle' });
   await page.waitForSelector('a[aria-label="Abrir invitación de Jacobo"]', { timeout: 15000 });
-  await wait(400);
+  await wait(500);
 
   const card = page.locator('a[aria-label="Abrir invitación de Jacobo"]');
-  const fullBox = await card.boundingBox();
   const href = await card.getAttribute('href');
+  const text = (await card.innerText()).replace(/\s+/g, ' ');
 
-  await card.screenshot({ path: PRE_JPG, type: 'jpeg', quality: 92 });
-  await page.pdf({
-    path: PRE_PDF,
-    width: '1080px',
-    height: '1350px',
-    printBackground: true,
-    margin: { top: '0', right: '0', bottom: '0', left: '0' },
-  });
-  // Whole surface is one tap target.
-  await makeClickablePdf(PRE_PDF, [fullBox], href || LIVE_URL);
+  await card.screenshot({ path: PRE_JPG, type: 'jpeg', quality: 94 });
+  await page.screenshot({ path: join(AUDIT, 'preinvitacion-playwright.png'), type: 'png' });
+  await jpgToClickablePdf(PRE_JPG, PRE_PDF, href || LIVE_URL, 1080, 1350);
   await page.close();
-  return { href, fullBox };
+  return { href, text };
+}
+
+async function auditPrePdf() {
+  const doc = await PDFDocument.load(readFileSync(PRE_PDF));
+  const page = doc.getPages()[0];
+  const size = page.getSize();
+  const annots = page.node.lookup(PDFName.of('Annots'));
+  const annotCount = annots ? annots.asArray().length : 0;
+  let uri = null;
+  if (annots) {
+    const first = page.doc.context.lookup(annots.asArray()[0]);
+    uri = first.lookup(PDFName.of('A')).lookup(PDFName.of('URI')).decodeText();
+  }
+  const report = {
+    pageSize: size,
+    annotCount,
+    uri,
+    matchesImageAspect: Math.abs(size.width / size.height - 1080 / 1350) < 0.01,
+    fullBleed: size.width === 1080 && size.height === 1350,
+  };
+  writeFileSync(join(AUDIT, 'preinvitacion-report.json'), `${JSON.stringify(report, null, 2)}\n`);
+  return report;
 }
 
 mkdirSync(PUBLIC, { recursive: true });
+mkdirSync(AUDIT, { recursive: true });
 writeFileSync(MESSAGE_TXT, `${WHATSAPP_MESSAGE}\n`, 'utf8');
 
 const preview = await startPreview();
@@ -167,6 +158,7 @@ try {
   const result = await exportWhatsappCard(browser);
   const pre = await exportPreInvitation(browser);
   await exportOgCover(browser);
+  const pdfAudit = await auditPrePdf();
 
   copyFileSync(WHATSAPP_JPG, join(DESKTOP, 'tarjeta-whatsapp-jacobo.jpg'));
   copyFileSync(WHATSAPP_PDF, join(DESKTOP, 'tarjeta-whatsapp-jacobo.pdf'));
@@ -174,22 +166,19 @@ try {
   copyFileSync(PRE_PDF, join(DESKTOP, 'preinvitacion-jacobo.pdf'));
   copyFileSync(MESSAGE_TXT, join(DESKTOP, 'mensaje-whatsapp-jacobo.txt'));
 
+  const birthdayWords = /cumpleaños|estás invitado|primer añito|fecha|hora|lugar/i;
   console.log(
     JSON.stringify(
       {
         ok: true,
         href: result.href,
         preHref: pre.href,
-        ctaBox: result.ctaBox,
-        qrBox: result.qrBox,
-        preBox: pre.fullBox,
+        looksLikeBirthdayInvite: birthdayWords.test(pre.text),
+        preTextSnippet: pre.text.slice(0, 220),
+        pdfAudit,
         files: {
-          jpg: WHATSAPP_JPG,
-          pdf: WHATSAPP_PDF,
           preJpg: PRE_JPG,
           prePdf: PRE_PDF,
-          og: OG_JPG,
-          message: MESSAGE_TXT,
           desktop: DESKTOP,
         },
       },
@@ -199,5 +188,7 @@ try {
   );
 } finally {
   await browser.close();
-  preview.kill();
+  preview.kill('SIGTERM');
+  // Ensure preview dies on Windows.
+  setTimeout(() => process.exit(0), 300);
 }

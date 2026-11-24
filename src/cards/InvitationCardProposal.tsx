@@ -56,56 +56,35 @@ export function InvitationCardProposal({
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Abrir invitación de Jacobo"
-        className={`relative mx-auto block overflow-hidden bg-[#1B4332] text-[#FFFDF7] shadow-2xl ${
+        className={`relative mx-auto block overflow-hidden border-[6px] border-[#1B4332] bg-[#EFE4C4] text-[#2F2012] shadow-2xl ${
           exportMode
-            ? 'h-[1350px] w-[1080px]'
-            : 'aspect-[1080/1350] w-full max-w-[540px] rounded-[2rem]'
+            ? 'h-[1350px] w-[1080px] rounded-none p-6'
+            : 'aspect-[1080/1350] w-full max-w-[540px] rounded-[2rem] p-3'
         }`}
       >
-        <img
-          src={SAFARI_SUNRISE_SRC}
-          alt=""
-          aria-hidden="true"
-          className="absolute inset-0 h-full w-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#1B4332]/55 via-[#1B4332]/35 to-[#281809]/92" />
-
         <div
-          className={`relative z-10 flex h-full flex-col ${
-            exportMode ? 'px-12 py-14' : 'px-6 py-8'
+          className={`flex h-full flex-col rounded-[1.4rem] border-[3px] border-[#C7933B] bg-[#FAF3DF] ${
+            exportMode ? 'p-7' : 'p-3.5'
           }`}
         >
           <p
-            className={`text-center font-extrabold tracking-[0.28em] text-[#FCE085] uppercase ${
-              exportMode ? 'text-lg' : 'text-xs'
+            className={`text-center font-extrabold tracking-[0.2em] text-[#1B4332] uppercase ${
+              exportMode ? 'text-base' : 'text-[10px]'
             }`}
           >
-            Preinvitación
+            Invitación de cumpleaños
           </p>
           <p
-            className={`mt-3 text-center font-semibold text-[#FBE8C2] ${
-              exportMode ? 'text-2xl' : 'text-sm'
+            className={`mt-1 text-center font-hand text-[#6F4220] ${
+              exportMode ? 'text-3xl' : 'text-lg'
             }`}
           >
-            Tienes una invitación muy especial
+            Estás invitado a celebrar
           </p>
 
-          <div className={`mt-auto flex items-end justify-center ${exportMode ? 'gap-3' : 'gap-1.5'}`}>
-            {REALISTIC_ANIMALS.map((animal) => (
-              <img
-                key={animal.id}
-                src={animal.src}
-                alt={animal.alt}
-                className={`w-auto object-contain drop-shadow-[0_18px_28px_rgba(0,0,0,0.45)] ${
-                  exportMode ? 'h-56' : 'h-28'
-                }`}
-              />
-            ))}
-          </div>
-
           <div
-            className={`mx-auto w-full rounded-[1.5rem] border-2 border-[#C7933B]/70 bg-[#281809]/70 text-center backdrop-blur-sm ${
-              exportMode ? 'mt-8 px-8 py-8' : 'mt-4 px-4 py-4'
+            className={`mt-3 rounded-2xl border-2 border-[#381E0B] bg-gradient-to-b from-[#6F4220] to-[#4A2A11] text-center text-[#FFF9EC] shadow-md ${
+              exportMode ? 'px-6 py-6' : 'px-4 py-3'
             }`}
           >
             <h2
@@ -117,39 +96,117 @@ export function InvitationCardProposal({
             </h2>
             <p
               className={`font-display font-bold text-[#FCE085] ${
-                exportMode ? 'mt-3 text-4xl' : 'mt-1 text-xl'
+                exportMode ? 'mt-2 text-4xl' : 'mt-1 text-xl'
               }`}
             >
               {config.honoree}
             </p>
-            <p className={`font-bold text-[#FBE8C2] ${exportMode ? 'mt-4 text-xl' : 'mt-2 text-sm'}`}>
-              {config.dateDisplay} · {config.timeDisplay}
+            <p className={`font-bold ${exportMode ? 'mt-3 text-xl' : 'mt-1 text-sm'}`}>
+              Su primer cumpleaños
             </p>
           </div>
 
-          <span
-            className={`mx-auto inline-flex w-full items-center justify-center gap-3 rounded-2xl border-b-4 border-[#9E5E12] bg-[#E09F24] font-extrabold text-[#281809] shadow-xl ${
-              exportMode ? 'mt-10 px-8 py-6 text-3xl' : 'mt-5 px-5 py-3.5 text-base'
+          <div
+            className={`relative mt-4 overflow-hidden rounded-2xl border-[3px] border-[#6F4220] shadow-md ${
+              exportMode ? 'min-h-[360px]' : 'min-h-[180px]'
             }`}
           >
-            <Compass className={exportMode ? 'h-9 w-9 shrink-0' : 'h-5 w-5 shrink-0'} aria-hidden="true" />
-            Toca para abrir la invitación
-            <ArrowRight className={exportMode ? 'h-9 w-9 shrink-0' : 'h-5 w-5 shrink-0'} aria-hidden="true" />
-          </span>
+            <img
+              src={SAFARI_SUNRISE_SRC}
+              alt="Amanecer en la sabana"
+              className="absolute inset-0 h-full w-full object-cover object-center"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#1B4332]/75 via-transparent to-transparent" />
+            <div
+              className={`absolute inset-x-0 bottom-0 flex items-end justify-center ${
+                exportMode ? 'gap-2 px-4 pb-3' : 'gap-1 px-2 pb-2'
+              }`}
+            >
+              {REALISTIC_ANIMALS.map((animal) => (
+                <img
+                  key={animal.id}
+                  src={animal.src}
+                  alt={animal.alt}
+                  className={`w-auto object-contain drop-shadow-[0_12px_18px_rgba(20,12,4,0.4)] ${
+                    exportMode ? 'h-40' : 'h-20'
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
+
+          <div className={`mt-4 grid grid-cols-3 ${exportMode ? 'gap-3' : 'gap-2'}`}>
+            <div
+              className={`rounded-2xl border-2 border-[#0E271D] bg-[#1B4332] text-center text-[#FFFDF7] ${
+                exportMode ? 'px-3 py-4' : 'px-2 py-2'
+              }`}
+            >
+              <Calendar className={`mx-auto text-[#FCE085] ${exportMode ? 'h-7 w-7' : 'h-4 w-4'}`} aria-hidden="true" />
+              <p className={`mt-1 font-extrabold text-[#FCE085] uppercase ${exportMode ? 'text-sm' : 'text-[10px]'}`}>
+                Fecha
+              </p>
+              <p className={`font-bold leading-snug ${exportMode ? 'mt-1 text-[15px]' : 'text-[10px]'}`}>
+                {config.dateDisplay}
+              </p>
+            </div>
+            <div
+              className={`rounded-2xl border-2 border-[#153C5E] bg-[#235B8C] text-center text-white ${
+                exportMode ? 'px-3 py-4' : 'px-2 py-2'
+              }`}
+            >
+              <Clock className={`mx-auto text-[#B8E4FF] ${exportMode ? 'h-7 w-7' : 'h-4 w-4'}`} aria-hidden="true" />
+              <p className={`mt-1 font-extrabold text-[#B8E4FF] uppercase ${exportMode ? 'text-sm' : 'text-[10px]'}`}>
+                Hora
+              </p>
+              <p className={`font-bold leading-snug ${exportMode ? 'mt-1 text-[15px]' : 'text-[10px]'}`}>
+                {config.timeDisplay}
+              </p>
+            </div>
+            <div
+              className={`rounded-2xl border-2 border-[#9E5E12] bg-[#D98A2B] text-center text-[#281809] ${
+                exportMode ? 'px-3 py-4' : 'px-2 py-2'
+              }`}
+            >
+              <MapPin className={`mx-auto text-[#3D240F] ${exportMode ? 'h-7 w-7' : 'h-4 w-4'}`} aria-hidden="true" />
+              <p className={`mt-1 font-extrabold uppercase ${exportMode ? 'text-sm' : 'text-[10px]'}`}>Lugar</p>
+              <p className={`font-bold leading-snug ${exportMode ? 'mt-1 text-[15px]' : 'text-[10px]'}`}>
+                {config.venueSpace}
+              </p>
+            </div>
+          </div>
 
           <p
-            className={`mt-4 text-center font-extrabold tracking-wide text-[#FCE085] ${
-              exportMode ? 'text-xl' : 'text-xs'
+            className={`mt-3 rounded-xl bg-[#6F4220]/10 text-center font-semibold text-[#5A4330] ${
+              exportMode ? 'px-4 py-3 text-lg' : 'px-2 py-1.5 text-[11px]'
             }`}
           >
-            {shortUrlDisplay}
+            {config.venueName}
+            <br />
+            {config.address} ({config.neighborhood})
           </p>
+
+          <span
+            className={`mt-auto inline-flex w-full items-center justify-center gap-3 rounded-2xl border-b-4 border-[#0E271D] bg-[#1B4332] font-extrabold text-[#FFFDF7] shadow-lg ${
+              exportMode ? 'mt-6 px-6 py-5 text-2xl' : 'mt-3 px-4 py-3 text-sm'
+            }`}
+          >
+            <Compass className={exportMode ? 'h-7 w-7 shrink-0' : 'h-4 w-4 shrink-0'} aria-hidden="true" />
+            Abrir invitación
+            <ArrowRight className={exportMode ? 'h-7 w-7 shrink-0' : 'h-4 w-4 shrink-0'} aria-hidden="true" />
+          </span>
           <p
-            className={`mt-2 text-center font-semibold text-[#FBE8C2]/90 ${
+            className={`mt-2 text-center font-bold text-[#2C4A38] ${
               exportMode ? 'text-base' : 'text-[11px]'
             }`}
           >
-            Un toque abre el video, el mapa y la confirmación
+            Toca aquí para ver el video, el mapa y confirmar asistencia
+          </p>
+          <p
+            className={`text-center font-extrabold tracking-wide text-[#6F4220] ${
+              exportMode ? 'mt-1 text-lg' : 'text-[11px]'
+            }`}
+          >
+            {shortUrlDisplay}
           </p>
         </div>
       </a>
