@@ -207,6 +207,71 @@ body {
   scrollbar-color: rgba(111, 66, 32, 0.4) rgba(245, 238, 219, 0.6);
 }
 
+/* —— Proposal themes —— */
+.theme-safari {
+  background:
+    radial-gradient(circle at 12% 8%, rgba(224, 159, 36, 0.28) 0%, transparent 40%),
+    radial-gradient(circle at 88% 18%, rgba(63, 125, 76, 0.2) 0%, transparent 38%),
+    linear-gradient(180deg, #f7efe0 0%, #efe2c4 48%, #e5d3a8 100%);
+  color: #2f2012;
+}
+
+
+.safari-dust {
+  background-image:
+    radial-gradient(circle, rgba(255, 236, 190, 0.35) 0 1px, transparent 2px),
+    radial-gradient(circle, rgba(255, 220, 150, 0.22) 0 1px, transparent 2px);
+  background-size: 40px 40px, 64px 64px;
+  animation: dustDrift 16s linear infinite;
+}
+
+@keyframes dustDrift {
+  from {
+    background-position: 0 0, 0 0;
+  }
+  to {
+    background-position: 80px 40px, -60px 30px;
+  }
+}
+
+.safari-sand-card {
+  background:
+    radial-gradient(circle at 20% 10%, rgba(255, 248, 230, 0.9), transparent 45%),
+    linear-gradient(180deg, #f6e7c6 0%, #e8d3a4 100%);
+  border: 2.5px solid #8b6136;
+  box-shadow: 0 18px 36px rgba(34, 20, 8, 0.16);
+}
+
+.passport-card {
+  background:
+    linear-gradient(145deg, #1f4d38 0%, #163527 55%, #10261c 100%);
+  border: 3px solid #0a1a12;
+  color: #fff8e8;
+  box-shadow: 0 22px 40px rgba(10, 26, 18, 0.35);
+}
+
+.passport-card label,
+.passport-card .text-\[\#3D240F\],
+.passport-card .text-\[\#4E2E14\],
+.passport-card .text-\[\#261B10\] {
+  color: #3d240f !important;
+}
+
+.passport-card .font-hand,
+.passport-card .font-display {
+  color: #fce085;
+}
+
+.passport-stamp {
+  background: rgba(255, 248, 232, 0.08);
+}
+
+.scroll-parchment {
+  box-shadow:
+    0 18px 34px rgba(78, 46, 20, 0.22),
+    inset 0 0 40px rgba(139, 97, 54, 0.18);
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -217,7 +282,8 @@ body {
   .animate-memory-enter,
   .animate-progress-fill,
   .envelope-flap,
-  .envelope-letter-rise {
+  .envelope-letter-rise,
+  .safari-dust {
     animation: none !important;
     transition: none !important;
   }

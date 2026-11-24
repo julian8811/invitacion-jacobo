@@ -1,0 +1,65 @@
+{
+  "findings": [
+    {
+      "level": "PASS",
+      "message": "Proposal picker removed"
+    },
+    {
+      "level": "PASS",
+      "message": "Four interactive animals present"
+    },
+    {
+      "level": "PASS",
+      "message": "Animal 0 uses PNG: /images/realistic/lion-cub.png"
+    },
+    {
+      "level": "PASS",
+      "message": "Animal 1 uses PNG: /images/realistic/elephant-calf.png"
+    },
+    {
+      "level": "PASS",
+      "message": "Animal 2 uses PNG: /images/realistic/giraffe-calf.png"
+    },
+    {
+      "level": "PASS",
+      "message": "Animal 3 uses PNG: /images/realistic/monkey-infant.png"
+    },
+    {
+      "level": "PASS",
+      "message": "Animals sit below wood plaque (no overlap)"
+    },
+    {
+      "level": "PASS",
+      "message": "Stamp cards checked against animals"
+    },
+    {
+      "level": "WARN",
+      "message": "Hero width may be narrow: null"
+    },
+    {
+      "level": "PASS",
+      "message": "Countdown has colorful blocks: rgb(27, 67, 50) | rgb(35, 91, 140) | rgb(217, 138, 43) | rgb(111, 66, 32)"
+    },
+    {
+      "level": "PASS",
+      "message": "Carousel auto-advances (scrollLeft 0 -> 285)"
+    },
+    {
+      "level": "PASS",
+      "message": "Carousel strip uses ~100% viewport (390px)"
+    },
+    {
+      "level": "PASS",
+      "message": "RSVP section present"
+    },
+    {
+      "level": "PASS",
+      "message": "No gift language"
+    },
+    {
+      "level": "PASS",
+      "message": "Only Safari experience in UI"
+    }
+  ],
+  "fails": 0
+}
