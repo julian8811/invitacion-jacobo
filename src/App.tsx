@@ -1,25 +1,39 @@
 import { useState } from 'react';
 import { InvitationCardProposal } from './cards/InvitationCardProposal';
 import { EVENT_CONFIG } from './config/event';
-import { EXPLORER_THEME } from './proposals/themes';
 import { SafariExperience } from './proposals/safari';
 
-function isCardExportMode(): boolean {
+function readExportVariant(): 'whatsapp' | 'og' | null {
   if (typeof window === 'undefined') {
-    return false;
+    return null;
   }
   const params = new URLSearchParams(window.location.search);
-  return params.has('exportCard');
+  if (!params.has('exportCard')) {
+    return null;
+  }
+  return params.get('exportCard') === 'og' ? 'og' : 'whatsapp';
 }
 
 export function App() {
-  const [exportMode] = useState(isCardExportMode);
+  const [exportVariant] = useState(readExportVariant);
   const [isMuted, setIsMuted] = useState(false);
 
-  if (exportMode) {
+  if (exportVariant) {
+    const isOg = exportVariant === 'og';
     return (
-      <main className="m-0 bg-transparent p-0">
-        <InvitationCardProposal config={EVENT_CONFIG} theme={EXPLORER_THEME} exportMode />
+      <main
+        className="m-0 bg-transparent p-0"
+        style={
+          isOg
+            ? { width: 1200, height: 630, overflow: 'hidden' }
+            : { width: 1080, height: 1350, overflow: 'hidden' }
+        }
+      >
+        <InvitationCardProposal
+          config={EVENT_CONFIG}
+          exportMode
+          variant={exportVariant}
+        />
       </main>
     );
   }
